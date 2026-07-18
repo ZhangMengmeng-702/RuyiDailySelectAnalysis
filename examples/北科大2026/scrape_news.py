@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+"""通过 CDP 在 AdsPower 浏览器中搜索贵州茅台新闻并抓取结果。"""
+import asyncio, json, sys, base64
+from pathlib import Path
+
+PAGE_WS = ""
+
+async def main():
+    import websockets
+    async with websockets.connect(PAGE_WS, max_size=2**20) as ws:
+        await ws.send(json.dumps({"id": 1, "method": "Page.enable"}))
+        await ws.recv()
+
+        search_url = "https://www.baidu.com/s?wd=" + \
+            "%E8%B4%B5%E5%B7%9E%E8%8C%85%E5%8F%B0+%E6%9C%80%E6%96%B0%E6%96%B0%E9%97%BB+2026"
+        await ws.send(json.dumps({
+            "id": 2, "method": "Page.navigate",
+            "params": {"url": search_url}
+        }))
+        r = json.loads(await ws.recv())
+        err = r.get("result", {}).get("errorText", "")
+        if err:
+            print(f"❌ Failed: {err}")
+            return
+        print("✅ Baidu search loading...")
+        await asyncio.sleep(4)
+
+        await ws.send(json.dumps({"id": 3, "method": "Runtime.evaluate",
+            "params": {"expression": "document.title"}}))
+        r = json.loads(await ws.recv())
+        title = r.get("result", {}).get("result", {}).get("value", "?")
+        print(f"📄 Title: {title}")
+
+        await ws.send(json.dumps({"id": 4, "method": "Runtime.evaluate",
+            "params": {"expression": 
+                "JSON.stringify(Array.from(document.querySelectorAll('h3')).slice(0,8).map(h => ({title: h.innerText, url: h.querySelector('a')?.href || ''})))"
+            }
+        }))
+        r = json.loads(await ws.recv())
+        result = r.get("result", {}).get("result", {}).get("value", "[]")
+        news = json.loads(result)
+
+        if news:
+            print(f"\n📰 贵州茅台 最新新闻（共 {len(news)} 条）:")
+            print("=" * 50)
+            for i, item in enumerate(news, 1):
+                print(f"  {i}. {item['title'][:70]}")
+                if item.get('url'):
+                    print(f"     {item['url'][:70]}")
+                print()
+        else:
+            print("\n⚠️  No news headlines found")
+
+        await ws.send(json.dumps({"id": 5, "method": "Page.captureScreenshot",
+            "params": {"format": "png", "fromSurface": True}}))
+        r = json.loads(await ws.recv())
+        img_data = r.get("result", {}).get("data", "")
+        if img_data:
+            ss = Path(__file__).parent / "baidu_news_search.png"
+            ss.write_bytes(base64.b64decode(img_data))
+            print(f"📸 Screenshot: {ss}")
+
+try:
+    asyncio.run(main())
+except Exception as e:
+    print(f"❌ Error: {e}")
+    sys.exit(1)
