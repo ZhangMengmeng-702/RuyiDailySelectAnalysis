@@ -10,7 +10,7 @@ The article should not sound like a neutral encyclopedia or generic AI summary. 
 
 Use this exact opening after the H1:
 
-`OK，OK，大家好，欢迎大家来到大鹏 AI 教育，我是张大鹏。`
+`OK，OK，大家好，欢迎大家来到大鹏 AI 教育，我是张梦梦。`
 
 This line is not decoration. It establishes authorship. After it, continue in the same first-person voice instead of switching into anonymous third-person explanation.
 
@@ -107,7 +107,7 @@ AI 给你的，是一个"看起来对"的答案。
 
 ### 8. 表示"逐个"用口语「挨个儿」
 
-要表达「一一 / 逐个」的意思，用更口语的 **「挨个儿」**，别用书面的「一一」，更贴张大鹏的说话口吻。
+要表达「一一 / 逐个」的意思，用更口语的 **「挨个儿」**，别用书面的「一一」，更贴张梦梦的说话口吻。
 
 - ✅ 我们挨个儿把它讲清楚
 - ❌ 我们一一把它讲清楚

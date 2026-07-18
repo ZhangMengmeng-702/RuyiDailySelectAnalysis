@@ -1,0 +1,16 @@
+<content>import subprocess, sys
+from pathlib import Path
+
+root = Path(r"D:\ai\RuyiDailyStockAnalysis")
+
+# Use find + grep via cmd to find files with 张梦梦
+r = subprocess.run(
+    ['cmd.exe', '/c', r'findstr /S /M /I /N "张梦梦" D:\ai\RuyiDailyStockAnalysis\*.* 2>nul'],
+    capture_output=True, text=True, timeout=30
+)
+for line in r.stdout.splitlines():
+    f = line.split(":", 1)[0] if ":" in line else line
+    if any(s in f for s in ["\\.venv\\", "\\node_modules\\", "\\logs\\", "\\data\\", "\\reports\\", "__pycache__", "\\.git\\"]):
+        continue
+    print(f)
+</content>

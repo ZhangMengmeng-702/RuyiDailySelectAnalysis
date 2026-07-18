@@ -20,7 +20,7 @@ The goal is to produce useful Chinese project-practice articles, not generic enc
 5. Write the post as Markdown under `博客\YYYY年\MM月`.
 6. Name files as `NNN_标题.md`, where `NNN` continues the existing numeric sequence in that month.
 7. Keep the H1 exactly aligned with the title.
-8. Use the opening line: `OK，OK，大家好，欢迎大家来到大鹏 AI 教育，我是张大鹏。`
+8. Use the opening line: `OK，OK，大家好，欢迎大家来到大鹏 AI 教育，我是张梦梦。`
 9. Write from Zhang Dapeng's first-person perspective. The article should feel like his expert field note from a real project, not an anonymous AI article.
 10. Ground the article in RuyiBookCourse or the user's actual workflow whenever possible.
 11. After writing, read back the file path, size, and first section enough to confirm the file exists and is not empty.
