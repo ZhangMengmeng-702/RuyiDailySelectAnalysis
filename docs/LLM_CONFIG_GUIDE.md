@@ -42,18 +42,18 @@ AGENT_GENERATION_BACKEND=auto
 ```
 
 - `GENERATION_BACKEND=litellm|codex_cli|claude_code_cli|opencode_cli`。本地 CLI backend 是 generation backend，不是 LiteLLM provider；不要写 `LITELLM_MODEL=codex_cli/...`、`LITELLM_MODEL=claude_code_cli/...` 或 `LITELLM_MODEL=opencode_cli/...`。
-- `GENERATION_BACKEND=opencode_cli` 时默认不传 `--model`，由本机 OpenCode 使用自身默认模型配置；`OPENCODE_CLI_MODEL` 只是可选覆盖值，配置时才作为单个 `--model` 参数传给 OpenCode。provider 认证、账号和模型可用性由本机 OpenCode 自身配置负责；DSA 不接管这些配置。
+- `GENERATION_BACKEND=opencode_cli` 时默认不传 `--model`，由本机 OpenCode 使用自身默认模型配置；`OPENCODE_CLI_MODEL` 只是可选覆盖值，配置时才作为单个 `--model` 参数传给 OpenCode。provider 认证、账号和模型可用性由本机 OpenCode 自身配置负责；Ruyi 不接管这些配置。
 - `GENERATION_FALLBACK_BACKEND` 未配置时默认 `litellm`；本地 `.env` 显式空值 `GENERATION_FALLBACK_BACKEND=` 表示禁用 backend-level fallback；primary 与 fallback 相同时解析为 no-op。仓库自带 GitHub Actions workflow 未配置该变量时会显式导出 `litellm`，如果要在 Actions 中禁用 backend fallback，请把 fallback 设为 primary backend，例如 `GENERATION_BACKEND=codex_cli` + `GENERATION_FALLBACK_BACKEND=codex_cli`。
 - `GENERATION_BACKEND=codex_cli|claude_code_cli` 且没有 Gemini/OpenAI/Anthropic/DeepSeek API Key 时，普通分析和大盘复盘仍会尝试本地 CLI backend；如果对应 executable 不存在，会返回结构化 `command_not_found`，不会报“API Key 未配置”。
-- 当前 `codex_cli` preset 使用 `codex exec --output-last-message <temp-file> -` 读取最终响应；Codex CLI 仍会把同一最终响应打印到 stdout，DSA 会从 stdout 诊断预览和输出大小统计中剔除这份重复内容，不参与主分析 JSON 解析。官方依据见 [Codex non-interactive mode](https://developers.openai.com/codex/noninteractive) 与 [Codex CLI command line options](https://developers.openai.com/codex/cli/reference)。本仓库当前只验证 `codex-cli 0.142.0`，不声明更宽最低版本；如果 CLI 版本不支持 preset 参数，DSA 会返回结构化 `capability_unsupported` / `cli_contract_unsupported` 诊断，并在配置 backend fallback 时回退到 `litellm`。
-- 当前 `claude_code_cli` preset 使用 `claude --safe-mode --tools "" --disallowedTools "mcp__*" --strict-mcp-config --no-session-persistence --output-format json -p <static instruction>`，完整 DSA prompt 通过 stdin 传入。DSA 只从 Claude JSON envelope 的 `result/success` 最终字段提取文本；如果后续启用 `--json-schema`，schema mode 必须提取 `structured_output`，并且仍会继续经过 DSA 现有 JSON validator、minimal parser contract、`_parse_response()`、integrity retry、placeholder fill 和 usage telemetry。参数依据见 [Claude Code CLI reference](https://code.claude.com/docs/en/cli-reference)；本 PR smoke 验证版本为 `claude 2.1.177 (Claude Code)`，不声明更宽最低版本。
-- 当前 `opencode_cli` preset 使用 `opencode --pure run --format json [--model <OPENCODE_CLI_MODEL>] <static instruction> --file <temp prompt file>`；只有显式配置 `OPENCODE_CLI_MODEL` 时才追加 `--model`，完整 DSA prompt 写入权限受控的临时文件，不进入 argv。DSA 只解析 OpenCode JSON event 输出中无工具事件的 `text` 内容，并要求正常 `step_finish`；出现 `tool_use`、`error`、`question`、`permission` 等事件会结构化失败。参数依据见 [OpenCode CLI reference](https://opencode.ai/docs/cli)，项目配置合并语义见 [OpenCode config reference](https://opencode.ai/docs/config)；本 PR smoke 验证版本为 `opencode 1.17.11`，不声明更宽最低版本。
+- 当前 `codex_cli` preset 使用 `codex exec --output-last-message <temp-file> -` 读取最终响应；Codex CLI 仍会把同一最终响应打印到 stdout，Ruyi 会从 stdout 诊断预览和输出大小统计中剔除这份重复内容，不参与主分析 JSON 解析。官方依据见 [Codex non-interactive mode](https://developers.openai.com/codex/noninteractive) 与 [Codex CLI command line options](https://developers.openai.com/codex/cli/reference)。本仓库当前只验证 `codex-cli 0.142.0`，不声明更宽最低版本；如果 CLI 版本不支持 preset 参数，Ruyi 会返回结构化 `capability_unsupported` / `cli_contract_unsupported` 诊断，并在配置 backend fallback 时回退到 `litellm`。
+- 当前 `claude_code_cli` preset 使用 `claude --safe-mode --tools "" --disallowedTools "mcp__*" --strict-mcp-config --no-session-persistence --output-format json -p <static instruction>`，完整 Ruyi prompt 通过 stdin 传入。Ruyi 只从 Claude JSON envelope 的 `result/success` 最终字段提取文本；如果后续启用 `--json-schema`，schema mode 必须提取 `structured_output`，并且仍会继续经过 Ruyi 现有 JSON validator、minimal parser contract、`_parse_response()`、integrity retry、placeholder fill 和 usage telemetry。参数依据见 [Claude Code CLI reference](https://code.claude.com/docs/en/cli-reference)；本 PR smoke 验证版本为 `claude 2.1.177 (Claude Code)`，不声明更宽最低版本。
+- 当前 `opencode_cli` preset 使用 `opencode --pure run --format json [--model <OPENCODE_CLI_MODEL>] <static instruction> --file <temp prompt file>`；只有显式配置 `OPENCODE_CLI_MODEL` 时才追加 `--model`，完整 Ruyi prompt 写入权限受控的临时文件，不进入 argv。Ruyi 只解析 OpenCode JSON event 输出中无工具事件的 `text` 内容，并要求正常 `step_finish`；出现 `tool_use`、`error`、`question`、`permission` 等事件会结构化失败。参数依据见 [OpenCode CLI reference](https://opencode.ai/docs/cli)，项目配置合并语义见 [OpenCode config reference](https://opencode.ai/docs/config)；本 PR smoke 验证版本为 `opencode 1.17.11`，不声明更宽最低版本。
 - 本地 CLI backend 不支持 streaming。请求 stream 时会自动降级为 non-stream，不会因此返回 `capability_unsupported`。
 - 本地 CLI usage 通常不可用，系统不会写入 fake 0 token、fake cost 或 fake cache telemetry。
 - 本地 CLI 执行上限有硬边界：`GENERATION_BACKEND_TIMEOUT_SECONDS` 最大 `3600`，`GENERATION_BACKEND_MAX_OUTPUT_BYTES` 最大 `33554432`，`GENERATION_BACKEND_MAX_CONCURRENCY` 最大 `16`，`LOCAL_CLI_BACKEND_MAX_CONCURRENCY` 最大 `4`。诊断 stdout/stderr 与最终响应合计超过输出上限时会返回结构化 `output_too_large`；对 `--output-last-message` preset，stdout 中重复打印的最终响应不会重复计入，也不会作为 `stdout_preview` 暴露。
 - 本地 CLI 默认并发为 1；有效并发为 `min(LOCAL_CLI_BACKEND_MAX_CONCURRENCY, GENERATION_BACKEND_MAX_CONCURRENCY)`，不继承 `MAX_WORKERS`。
 - `AGENT_GENERATION_BACKEND=auto` 不会继承 `GENERATION_BACKEND` 的 local CLI 值；Agent 工具调用继续使用 LiteLLM。Web 设置页仅暴露 `auto|litellm`；手写 `AGENT_GENERATION_BACKEND=codex_cli|claude_code_cli|opencode_cli` 不实现 text-only Agent mode，会返回明确 unsupported tool-calling 诊断。
-- Phase 6a 的 DSA Tool Surface 只是内部工具 schema、权限元数据、scope guard、结构化错误和审计/脱敏边界，用于后续 AgentBackend 统一消费；stock-scoped 工具调用必须显式传入 `ToolAccessContext.stock_scope`，有 `stock_code` 参数但未声明 stock scope 的工具会 fail-closed。它不新增外部 runtime adapter、MCP server、REST API、Web UI 或 `.env` 配置，也不改变 generation backend / Agent backend 路由。Codex / Claude / OpenCode / Hermes 在完成 wire-level tool call / tool result roundtrip probe 前仍不能绕过 Tool Surface 直接拼 provider-specific tool schema，`codex_cli` / `claude_code_cli` / `opencode_cli` 仍保持 generation-only，`supports_tools=false`。
+- Phase 6a 的 Ruyi Tool Surface 只是内部工具 schema、权限元数据、scope guard、结构化错误和审计/脱敏边界，用于后续 AgentBackend 统一消费；stock-scoped 工具调用必须显式传入 `ToolAccessContext.stock_scope`，有 `stock_code` 参数但未声明 stock scope 的工具会 fail-closed。它不新增外部 runtime adapter、MCP server、REST API、Web UI 或 `.env` 配置，也不改变 generation backend / Agent backend 路由。Codex / Claude / OpenCode / Hermes 在完成 wire-level tool call / tool result roundtrip probe 前仍不能绕过 Tool Surface 直接拼 provider-specific tool schema，`codex_cli` / `claude_code_cli` / `opencode_cli` 仍保持 generation-only，`supports_tools=false`。
 - Web 设置页的生成后端快速检查只读取已保存的 `.env`、运行时兜底值和未保存草稿；它不会写配置、重载运行时，也不会发起真实模型请求。`available` 只表示当前配置具备尝试运行的条件。JSON 冒烟测试是单独的显式操作，会使用服务端固定的 JSON 提示词和 schema 发起一次真实的生成后端请求，用于验证提取器、JSON 契约、超时、输出限制和 usage-unavailable 语义。
 - `GET /api/v1/system/config/generation-backends/status` 只读取已保存配置；未保存草稿需调用 `POST /api/v1/system/config/generation-backends/status/preview` 或 `POST /api/v1/system/config/generation-backends/smoke-test`。被遮罩的密钥字段会继续沿用已保存值。`health_status` 与 `last_error_code/message` 只代表本次计算结果，不是历史持久健康状态。
 
@@ -62,13 +62,13 @@ AGENT_GENERATION_BACKEND=auto
 - 本地 CLI Backend 不等于离线模型；Codex / Claude Code / OpenCode 背后的服务可能处理股票代码、新闻、持仓上下文、分析 prompt、报告草稿等内容。
 - Docker、云服务器、CI 不天然拥有你本机的 CLI 登录态。
 - GitHub Actions 只负责透传配置值，不安装或登录本地 CLI；如果在 Actions 中 opt-in local CLI backend，runner 上缺少可执行文件或登录态时应看到结构化失败。
-- DSA 不读取 Codex/Claude/OpenCode credential 文件，但子进程可能读取 CLI 自身登录态。
-- macOS 从 Finder/Dock 启动桌面端时不继承 shell PATH；打包桌面端会在启动后端时补入常见 Homebrew 路径（如 `/opt/homebrew/bin`、`/usr/local/bin`）。如果设置检查仍提示找不到 CLI 可执行文件，请完全退出并重开 DSA；打开 CLI 交互窗口不会改变已运行后端的 PATH。
-- DSA 默认只继承最小运行环境，并拒绝通配继承 `CLAUDE_*`、`ANTHROPIC_*`、`OPENCODE_*`、`OPENAI_*`、`GOOGLE_*`、`GEMINI_*`、`AWS_*`、`AZURE_*`、`VERTEX_*`、`*_API_KEY`、`*_AUTH_TOKEN`、`*_ACCESS_TOKEN`、`*_SECRET`、`*_PASSWORD`，降低 DSA API keys、provider tokens 和 webhook tokens 泄漏风险。`CODEX_HOME` 是为兼容既有 Codex CLI 登录目录保留的精确例外；不会恢复 `CODEX_CLI_*` 通配。
+- Ruyi 不读取 Codex/Claude/OpenCode credential 文件，但子进程可能读取 CLI 自身登录态。
+- macOS 从 Finder/Dock 启动桌面端时不继承 shell PATH；打包桌面端会在启动后端时补入常见 Homebrew 路径（如 `/opt/homebrew/bin`、`/usr/local/bin`）。如果设置检查仍提示找不到 CLI 可执行文件，请完全退出并重开 Ruyi；打开 CLI 交互窗口不会改变已运行后端的 PATH。
+- Ruyi 默认只继承最小运行环境，并拒绝通配继承 `CLAUDE_*`、`ANTHROPIC_*`、`OPENCODE_*`、`OPENAI_*`、`GOOGLE_*`、`GEMINI_*`、`AWS_*`、`AZURE_*`、`VERTEX_*`、`*_API_KEY`、`*_AUTH_TOKEN`、`*_ACCESS_TOKEN`、`*_SECRET`、`*_PASSWORD`，降低 Ruyi API keys、provider tokens 和 webhook tokens 泄漏风险。`CODEX_HOME` 是为兼容既有 Codex CLI 登录目录保留的精确例外；不会恢复 `CODEX_CLI_*` 通配。
 - `opencode_cli` 会在临时 cwd 写入最小项目 `opencode.json` 以关闭分享、自动更新、快照和常见工具权限，但 OpenCode resolved config 仍可能包含用户本机全局配置；运行时安全边界同时依赖 `--pure`、env denylist、prompt file 权限和 event extractor fail-closed。
 - Web 设置页只暴露安全 preset，不允许提交任意 command / argv / shell string。
-- `codex_cli` / `claude_code_cli` / `opencode_cli` 仍标记为 experimental/limited；如果你的 CLI 版本不支持本仓库已验证的非交互输出契约，DSA 会返回结构化 `capability_unsupported`、`cli_contract_unsupported`、`invalid_json`、`schema_validation_failed` 或对应 backend error，并在配置 backend fallback 时回退到 `litellm`。无法接受该版本漂移风险时，请保持 `GENERATION_BACKEND=litellm`。
-- `opencode_cli` 不支持 OpenCode serve / web / ACP / MCP / attach / `--dangerously-skip-permissions`；DSA 不把 OpenCode final text 当成 Agent tool success。
+- `codex_cli` / `claude_code_cli` / `opencode_cli` 仍标记为 experimental/limited；如果你的 CLI 版本不支持本仓库已验证的非交互输出契约，Ruyi 会返回结构化 `capability_unsupported`、`cli_contract_unsupported`、`invalid_json`、`schema_validation_failed` 或对应 backend error，并在配置 backend fallback 时回退到 `litellm`。无法接受该版本漂移风险时，请保持 `GENERATION_BACKEND=litellm`。
+- `opencode_cli` 不支持 OpenCode serve / web / ACP / MCP / attach / `--dangerously-skip-permissions`；Ruyi 不把 OpenCode final text 当成 Agent tool success。
 
 ## 方式一：极简单模型配置（适合新手）
 
@@ -156,7 +156,7 @@ LITELLM_MODEL=ollama/qwen3:8b
 - 保存渠道时，只会更新这次提交的 key；不会因为切换渠道模式而静默迁移整个旧配置。唯一会被**同步清理**的是运行时模型引用：如果 `LITELLM_MODEL`、`AGENT_LITELLM_MODEL`、`VISION_MODEL` 或 `LITELLM_FALLBACK_MODELS` 指向了当前已启用渠道里已经不存在的模型，设置页会在保存前把这些失效引用清空/移除，避免运行时继续指向无效模型；即使当前启用渠道没有任何可选模型，也会清理缺少 legacy Key 支撑的托管 provider 旧值。`cohere/*`、`google/*`、`xai/*` 这类直连模型仅用于说明历史 `direct-env` 兼容保留语义，不等于可用性承诺，是否可用请按各厂商官方模型/API 文档再做实际验证。
 - 后端一致性依据：配置校验链路在 `SystemConfigService._validate_llm_runtime_selection`（`src/services/system_config_service.py`）中通过 `_uses_direct_env_provider`（`src/config.py`）判断运行时来源；当前仅 `gemini`、`vertex_ai`、`anthropic`、`openai`、`deepseek` 属于托管 key provider，`cohere`、`google`、`xai` 不在该白名单中，因此会保留为直连模型。
 - 回退方式也保持最小：把对应渠道模型列表改回去后重新选择主模型 / fallback，或直接用桌面端导出备份 / 手动 `.env` 还原之前的 `LLM_*`、`LITELLM_MODEL`、`AGENT_LITELLM_MODEL`、`VISION_MODEL`、`LLM_TEMPERATURE`、`LLM_USAGE_HMAC_*` 即可，不需要额外跑迁移脚本。Web 端如需恢复配置，也可在启用管理员鉴权（`ADMIN_AUTH_ENABLED=true`）后通过 `POST /api/v1/system/config/import` 回滚。
-- 当前仓库对此链路的依赖约束是 `litellm>=1.80.10,!=1.82.7,!=1.82.8,<2.0.0`（见 `requirements.txt`）；回归覆盖包括 `tests/test_system_config_service.py`、`tests/test_system_config_api.py` 和 `apps/dsa-web/src/components/settings/__tests__/LLMChannelEditor.test.tsx`。
+- 当前仓库对此链路的依赖约束是 `litellm>=1.80.10,!=1.82.7,!=1.82.8,<2.0.0`（见 `requirements.txt`）；回归覆盖包括 `tests/test_system_config_service.py`、`tests/test_system_config_api.py` 和 `apps/ruyi-web/src/components/settings/__tests__/LLMChannelEditor.test.tsx`。
 
 > **外部 provider 示例模型说明**：`cohere/*`、`google/*`、`xai/*` 等 provider 前缀值仅用于说明当前保存清理语义，**不代表该依赖约束内的逐型号可用性保证**。文档或测试中的具体模型名都是配置保留行为样例，不是生产推荐；实际可用性请以对应官方模型文档为准，并结合仓库依赖约束 `litellm>=1.80.10,!=1.82.7,!=1.82.8,<2.0.0` 复核。
 
@@ -166,7 +166,7 @@ LITELLM_MODEL=ollama/qwen3:8b
 - 回退方式：可直接用桌面端导出备份后通过 `POST /api/v1/system/config/import` 恢复；也可手动把 `.env` 中历史 `LITELLM_* / AGENT_LITELLM_MODEL / VISION_MODEL / LLM_TEMPERATURE / LLM_USAGE_HMAC_*` 回填后重启生效。Web 端执行导入前请先开启管理员鉴权（`ADMIN_AUTH_ENABLED=true`）。
 - 回退回归证据：`tests/test_system_config_service.py::test_import_desktop_env_restores_runtime_models_after_cleanup` 覆盖“清理后用桌面导出备份恢复 runtime 引用”。
 - 直连 provider 回归证据：`tests/test_system_config_service.py::SystemConfigServiceTestCase::test_validate_accepts_minimax_model_as_direct_env_provider`、`test_validate_accepts_cohere_model_as_direct_env_provider`、`test_validate_accepts_google_model_as_direct_env_provider`、`test_validate_accepts_xai_model_as_direct_env_provider` 覆盖直连 provider 保留语义。
-- 前端回归命令：`cd apps/dsa-web && npm run lint && npm run build && npm run test -- src/components/settings/__tests__/LLMChannelEditor.test.tsx`。
+- 前端回归命令：`cd apps/ruyi-web && npm run lint && npm run build && npm run test -- src/components/settings/__tests__/LLMChannelEditor.test.tsx`。
 - 建议回退操作链路（含设置页刷新）：先导出桌面备份，`POST /api/v1/system/config/import` 导入后，再通过 `GET /api/v1/system/config` 刷新页面配置，再确认 `LITELLM_MODEL / AGENT_LITELLM_MODEL / VISION_MODEL / LLM_TEMPERATURE / LLM_USAGE_HMAC_*` 与模型列表一致后再继续使用。
 
 ### 常用官方文档来源（用于核对预设 provider / Base URL / 模型命名）
@@ -294,7 +294,7 @@ AGENT_CONTEXT_PROTECTED_TURNS=
   - 渠道模型发现与连接：`tests/test_llm_channel_config.py`
   - 运行时源清理与恢复（含桌面导出备份链路）：`tests/test_system_config_service.py`
   - 接口校验与问题面向字段：`tests/test_system_config_api.py`
-  - 设置页交互与保存后提示：`apps/dsa-web/src/components/settings/__tests__/LLMChannelEditor.test.tsx`
+  - 设置页交互与保存后提示：`apps/ruyi-web/src/components/settings/__tests__/LLMChannelEditor.test.tsx`
 - 旧配置回退路径：`桌面端导出备份 -> /api/v1/system/config/import`，或手动恢复 `LLM_* / LITELLM_* / AGENT_LITELLM_MODEL / VISION_MODEL / LLM_TEMPERATURE / LLM_USAGE_HMAC_*`；Web 导入备份前同样要求 `ADMIN_AUTH_ENABLED=true`，否则会返回 403。
 
 > **致命避坑说明**：如果你启用了 `LLM_CHANNELS`，那么你直接写在外面的 `DEEPSEEK_API_KEY` 或 `OPENAI_API_KEY` 将**全部失效（系统一律无视）**！二者**选其一即可**，千万不要既写了新手模式又写了渠道模式结果产生冲突。

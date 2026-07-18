@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Tests for the internal DSA Tool Surface."""
+"""Tests for the internal Ruyi Tool Surface."""
 
 from __future__ import annotations
 

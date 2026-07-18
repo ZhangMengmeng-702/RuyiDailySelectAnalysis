@@ -1030,7 +1030,7 @@ describe('StockScreeningPage', () => {
     expect(screen.queryByText(/RemoteDisconnected/)).not.toBeInTheDocument();
   });
 
-  it('shows DSA enrichment summary, news, and enrichment metadata', async () => {
+  it('shows Ruyi enrichment summary, news, and enrichment metadata', async () => {
     getAlphaSiftStatus.mockResolvedValueOnce({
       enabled: true,
       available: true,
@@ -1069,11 +1069,11 @@ describe('StockScreeningPage', () => {
 
     expect(await screen.findByText('DSA增强：1 / 1')).toBeInTheDocument();
 
-    expect(screen.getByText('DSA 增强摘要')).toBeInTheDocument();
+    expect(screen.getByText('Ruyi 增强摘要')).toBeInTheDocument();
     expect(screen.getByText(/DSA行情：现价 1688/)).toBeInTheDocument();
-    expect(screen.getByText('DSA 新闻')).toBeInTheDocument();
+    expect(screen.getByText('Ruyi 新闻')).toBeInTheDocument();
     expect(screen.getByText('贵州茅台最新公告')).toBeInTheDocument();
-    expect(screen.getByText('DSA 增强提示')).toBeInTheDocument();
+    expect(screen.getByText('Ruyi 增强提示')).toBeInTheDocument();
     expect(screen.getByText('stock_news_unavailable')).toBeInTheDocument();
   });
 });

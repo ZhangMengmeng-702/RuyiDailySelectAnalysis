@@ -90,8 +90,8 @@ verify_*.py
 
 # ignore static files
 static/
-/apps/dsa-desktop/dist/
-/apps/dsa-desktop/node_modules/
+/apps/ruyi-desktop/dist/
+/apps/ruyi-desktop/node_modules/
 docs/specs/
 
 # 运行时日志/错误输出（根目录）

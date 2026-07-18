@@ -1,18 +1,18 @@
 # syntax=docker/dockerfile:1.7
 
 # ===================================
-# A股自选股智能分析系统 - Docker 镜像
+# 如意金股 - Docker 镜像
 # ===================================
 # 多阶段构建：前端打包 + 后端运行
 
 FROM node:20-slim AS web-builder
 
-WORKDIR /app/apps/dsa-web
+WORKDIR /app/apps/ruyi-web
 
-COPY apps/dsa-web/package.json apps/dsa-web/package-lock.json ./
+COPY apps/ruyi-web/package.json apps/ruyi-web/package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm npm ci
 
-COPY apps/dsa-web/ ./
+COPY apps/ruyi-web/ ./
 RUN npm run build
 
 # Pin to bookworm: wkhtmltopdf was removed from Debian testing (2025)

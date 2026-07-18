@@ -224,7 +224,7 @@ const normalizeScreenMessageKey = (value: string) => {
 };
 
 const formatScreenMessage = (value: string) => {
-  if (/^DSA provider context applied \d+ of \d+ candidates/i.test(value)) {
+  if (/^Ruyi provider context applied \d+ of \d+ candidates/i.test(value)) {
     return '';
   }
   if (/^LLM ranking failed/i.test(value)) {
@@ -844,7 +844,7 @@ const StockScreeningPage: React.FC = () => {
           </span>
           <div>
             <h1 className="text-2xl font-bold tracking-normal text-foreground">AlphaSift 选股</h1>
-            <p className="mt-1 text-sm text-secondary-text">开启后通过内置 AlphaSift 适配层生成候选股票，并补充 DSA 数据与新闻</p>
+            <p className="mt-1 text-sm text-secondary-text">开启后通过内置 AlphaSift 适配层生成候选股票，并补充 Ruyi 数据与新闻</p>
           </div>
         </div>
 
@@ -1133,7 +1133,7 @@ const StockScreeningPage: React.FC = () => {
         <div className="mb-4 flex items-center justify-between gap-3">
           <div>
             <h2 className="text-sm font-semibold text-foreground">选择策略</h2>
-            <p className="mt-1 text-xs text-secondary-text">策略来自 AlphaSift；DSA 会对候选补充行情、基本面和新闻上下文。</p>
+            <p className="mt-1 text-xs text-secondary-text">策略来自 AlphaSift；Ruyi 会对候选补充行情、基本面和新闻上下文。</p>
           </div>
           <span className="rounded-full border border-cyan/30 bg-cyan/10 px-3 py-1 text-xs font-semibold text-cyan">
             {selectedStrategyTag}
@@ -1286,7 +1286,7 @@ const StockScreeningPage: React.FC = () => {
           <div>
             <h2 className="text-base font-semibold text-foreground">选股结果</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-secondary-text">
-              AlphaSift 返回候选后，DSA 会对前几名补充行情、基本面、新闻和辅助摘要。
+              AlphaSift 返回候选后，Ruyi 会对前几名补充行情、基本面、新闻和辅助摘要。
             </p>
           </div>
           <div className="flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-2 text-xs text-secondary-text">
@@ -1369,7 +1369,7 @@ const StockScreeningPage: React.FC = () => {
                                 </div>
                                 {item.dsaAnalysisSummary ? (
                                   <div>
-                                    <p className="text-xs font-semibold text-secondary-text">DSA 增强摘要</p>
+                                    <p className="text-xs font-semibold text-secondary-text">Ruyi 增强摘要</p>
                                     <p className="mt-1 text-sm leading-6 text-foreground">{item.dsaAnalysisSummary}</p>
                                   </div>
                                 ) : null}
@@ -1428,7 +1428,7 @@ const StockScreeningPage: React.FC = () => {
                                   </p>
                                 </div>
                                 <div>
-                                  <p className="text-xs font-semibold text-secondary-text">DSA 新闻</p>
+                                  <p className="text-xs font-semibold text-secondary-text">Ruyi 新闻</p>
                                   {dsaNews.length > 0 ? (
                                     <ul className="mt-1 space-y-1 text-sm text-foreground">
                                       {dsaNews.slice(0, 3).map((newsItem, newsIndex) => (
@@ -1443,7 +1443,7 @@ const StockScreeningPage: React.FC = () => {
                                 </div>
                                 {dsaWarnings.length > 0 ? (
                                   <div>
-                                    <p className="text-xs font-semibold text-secondary-text">DSA 增强提示</p>
+                                    <p className="text-xs font-semibold text-secondary-text">Ruyi 增强提示</p>
                                     <p className="mt-1 text-sm text-secondary-text">{dsaWarnings.join('，')}</p>
                                   </div>
                                 ) : null}

@@ -29,7 +29,7 @@ test('preload exposes desktop version from BrowserWindow additionalArguments', (
 
   const preloadPath = require.resolve('../preload.js');
   delete require.cache[preloadPath];
-  process.argv = [...originalArgv, `--dsa-desktop-version=${expectedVersion}`];
+  process.argv = [...originalArgv, `--ruyi-desktop-version=${expectedVersion}`];
 
   t.after(() => {
     Module._load = originalLoad;
@@ -48,7 +48,7 @@ test('preload exposes desktop version from BrowserWindow additionalArguments', (
   assert.equal(typeof exposeInMainWorldCalls[0][1].openReleasePage, 'function');
   assert.equal(typeof exposeInMainWorldCalls[0][1].onUpdateStateChange, 'function');
   assert.equal(
-    preloadModule.readDesktopVersion([`--dsa-desktop-version=${expectedVersion}`]),
+    preloadModule.readDesktopVersion([`--ruyi-desktop-version=${expectedVersion}`]),
     expectedVersion
   );
 });
@@ -79,7 +79,7 @@ test('preload falls back to empty version when BrowserWindow does not pass one',
 
   const preloadPath = require.resolve('../preload.js');
   delete require.cache[preloadPath];
-  process.argv = originalArgv.filter((value) => !value.startsWith('--dsa-desktop-version='));
+  process.argv = originalArgv.filter((value) => !value.startsWith('--ruyi-desktop-version='));
 
   t.after(() => {
     Module._load = originalLoad;
@@ -148,9 +148,9 @@ test('createDesktopBridge delegates update actions to ipcRenderer', async (t) =>
     channel: preloadModule.DESKTOP_INSTALL_DOWNLOADED_UPDATE_CHANNEL,
     payload: undefined,
   });
-  assert.deepEqual(await desktopBridge.openReleasePage('https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/v3.13.0'), {
+  assert.deepEqual(await desktopBridge.openReleasePage('https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/v3.13.0'), {
     channel: preloadModule.DESKTOP_OPEN_RELEASE_PAGE_CHANNEL,
-    payload: 'https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/v3.13.0',
+    payload: 'https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/v3.13.0',
   });
 
   const receivedPayloads = [];

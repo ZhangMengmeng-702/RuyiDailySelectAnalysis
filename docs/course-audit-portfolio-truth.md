@@ -25,7 +25,7 @@
 | ZIP 修改 | 未发现 | 缺失 0、内容不符 0 |
 | Git 元数据 | 教学目录无 `.git` | 通过开发仓库的 `version/v0.1.0` 引用反向映射 |
 | 版本 commit | `4eb23fbb1242b773e789373e7035e570f7075798` | `refs/heads/version/v0.1.0` 与 `origin/version/v0.1.0` 同指该 commit |
-| 运行新增文件 | 存在 | `.venv`、`apps/dsa-web/node_modules`、`static/` 构建产物、`.env`、SQLite/WAL、日志、报告 |
+| 运行新增文件 | 存在 | `.venv`、`apps/ruyi-web/node_modules`、`static/` 构建产物、`.env`、SQLite/WAL、日志、报告 |
 
 这些新增项是安装、构建与运行痕迹，不是 ZIP 原文件被修改。教学 `.env` 的本任务相关非敏感配置为 `STOCK_LIST=600519,300750,002594`、`DATABASE_PATH=./data/stock_analysis.db`；没有读取或记录密钥值。
 
@@ -36,7 +36,7 @@
 - 报告：`reports/report_20260711.md`，属于股票分析报告，不是账户/持仓业务报告。
 - CLI：`python main.py` 及 `--debug`、`--dry-run`、`--stocks`、`--market-review`、`--schedule`。
 - Web/API：`python main.py --webui`、`python main.py --webui-only`、`python main.py --serve-only`、`python webui.py`、`uvicorn server:app ...`。
-- 前端：`apps/dsa-web` 的 Vite 应用；静态构建已生成到教学目录 `static/`。
+- 前端：`apps/ruyi-web` 的 Vite 应用；静态构建已生成到教学目录 `static/`。
 - 当前运行状态：核验时 8000/4173/3000/8080 均无监听，教学服务已停止。
 - 测试：教学 `.venv` 未安装 pytest，因此用标准库 `unittest` 执行 93 项；Vitest 32 项通过。
 
@@ -47,7 +47,7 @@
 | 生成时间 | 报告 UTC `2026-07-11T23:11:02.468Z`，即北京时间 2026-07-12 07:11:02；投资组合截图 07:10:45 |
 | 运行目录 | `D:\quant\RuyiDailyStockAnalysis`，不是 `D:\tmp` 教学目录 |
 | 代码版本 | 截图时 HEAD 为 `4eb23fbb`；reflog 显示直到 08:15 才从 `version/v0.1.0` 切到 `dev`。所以代码内容对应 `v0.1.0` |
-| 截图工具 | 当时未提交的 `apps/dsa-web/e2e/page-audit.spec.ts`，后于 08:36/08:37 提交为 `605fd015` |
+| 截图工具 | 当时未提交的 `apps/ruyi-web/e2e/page-audit.spec.ts`，后于 08:36/08:37 提交为 `605fd015` |
 | 后端数据库 | 日志 06:57:27 明确为 `D:\quant\RuyiDailyStockAnalysis\data\stock_analysis.db` |
 | 数据状态 | 投资组合八表当前均为 0；截图视觉为“还没有可用账户/当前无持仓数据/暂无流水”；同分钟 API 仅 GET |
 | 行情方式 | 页面请求 `snapshot` 与 `risk` 均带 `include_realtime=false`，使用本地历史收盘价路径；空账户下未形成估值 |
@@ -69,7 +69,7 @@
 | 风险 | `/portfolio/risk` GET | `PortfolioRiskService` | daily snapshot + position cache + decision signal | 阈值、回填、跨币种集中度、降级 |
 | CSV | `/portfolio/imports/csv/brokers|parse|commit` | `PortfolioImportService` | 最终逐行调用 `record_trade` | 券商、去重、前导零、预演、超售/忙碌 |
 
-前端调用链为 `PortfolioPage.tsx → apps/dsa-web/src/api/portfolio.ts → api/v1/endpoints/portfolio.py → src/services/* → src/repositories/portfolio_repo.py → src/storage.py`。Web 不提供独立 CLI 持仓命令；CLI 主入口主要负责分析与服务启动。
+前端调用链为 `PortfolioPage.tsx → apps/ruyi-web/src/api/portfolio.ts → api/v1/endpoints/portfolio.py → src/services/* → src/repositories/portfolio_repo.py → src/storage.py`。Web 不提供独立 CLI 持仓命令；CLI 主入口主要负责分析与服务启动。
 
 ## 5. 数据模型与业务关系
 

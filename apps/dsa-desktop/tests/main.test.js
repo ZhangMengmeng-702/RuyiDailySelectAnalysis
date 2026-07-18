@@ -207,9 +207,9 @@ test('buildBackendEnvironment pins WEBUI_PORT to the Electron-selected backend p
   const mainModule = loadMainModule(t, { platform: 'win32' });
 
   const env = mainModule.buildBackendEnvironment({
-    envFile: 'C:\\Users\\user\\AppData\\Roaming\\Daily Stock Analysis\\.env',
-    dbPath: 'C:\\Users\\user\\AppData\\Roaming\\Daily Stock Analysis\\data\\stock_analysis.db',
-    logDir: 'C:\\Users\\user\\AppData\\Roaming\\Daily Stock Analysis\\logs',
+    envFile: 'C:\\Users\\user\\AppData\\Roaming\\RuyiDailyStockAnalysis\\.env',
+    dbPath: 'C:\\Users\\user\\AppData\\Roaming\\RuyiDailyStockAnalysis\\data\\stock_analysis.db',
+    logDir: 'C:\\Users\\user\\AppData\\Roaming\\RuyiDailyStockAnalysis\\logs',
     port: 8000,
     sourceEnv: {
       PATH: 'C:\\Windows\\System32',
@@ -223,7 +223,7 @@ test('buildBackendEnvironment pins WEBUI_PORT to the Electron-selected backend p
 
 test('resolveBackendBindHost reads WEBUI_HOST from env file', (t) => {
   const mainModule = loadMainModule(t, { platform: 'win32' });
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-host-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-host-'));
   t.after(() => fs.rmSync(tmpDir, { recursive: true, force: true }));
   const envPath = path.join(tmpDir, '.env');
   fs.writeFileSync(envPath, 'WEBUI_HOST=0.0.0.0 # allow LAN\nWEBUI_PORT=8000\n', 'utf-8');
@@ -237,7 +237,7 @@ test('resolveBackendBindHost reads WEBUI_HOST from env file', (t) => {
 
 test('resolveBackendBindHost expands WEBUI_HOST dotenv references', (t) => {
   const mainModule = loadMainModule(t, { platform: 'win32' });
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-host-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-host-'));
   t.after(() => fs.rmSync(tmpDir, { recursive: true, force: true }));
   const envPath = path.join(tmpDir, '.env');
   fs.writeFileSync(envPath, 'BIND_HOST=0.0.0.0\nWEBUI_HOST=${BIND_HOST}\n', 'utf-8');
@@ -251,7 +251,7 @@ test('resolveBackendBindHost expands WEBUI_HOST dotenv references', (t) => {
 
 test('resolveBackendBindHost handles quoted WEBUI_HOST with inline comment', (t) => {
   const mainModule = loadMainModule(t, { platform: 'win32' });
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-host-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-host-'));
   t.after(() => fs.rmSync(tmpDir, { recursive: true, force: true }));
   const envPath = path.join(tmpDir, '.env');
   fs.writeFileSync(envPath, 'WEBUI_HOST="0.0.0.0" # allow LAN\n', 'utf-8');
@@ -265,7 +265,7 @@ test('resolveBackendBindHost handles quoted WEBUI_HOST with inline comment', (t)
 
 test('resolveBackendBindHost supports dotenv default expansion', (t) => {
   const mainModule = loadMainModule(t, { platform: 'win32' });
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-host-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-host-'));
   t.after(() => fs.rmSync(tmpDir, { recursive: true, force: true }));
   const envPath = path.join(tmpDir, '.env');
   fs.writeFileSync(envPath, 'WEBUI_HOST=${MISSING_HOST:-127.0.0.1}\n', 'utf-8');
@@ -279,7 +279,7 @@ test('resolveBackendBindHost supports dotenv default expansion', (t) => {
 
 test('resolveBackendBindHost keeps process WEBUI_HOST override ahead of env file', (t) => {
   const mainModule = loadMainModule(t, { platform: 'win32' });
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-host-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-host-'));
   t.after(() => fs.rmSync(tmpDir, { recursive: true, force: true }));
   const envPath = path.join(tmpDir, '.env');
   fs.writeFileSync(envPath, 'WEBUI_HOST=0.0.0.0\n', 'utf-8');
@@ -295,7 +295,7 @@ test('resolveBackendBindHost keeps process WEBUI_HOST override ahead of env file
 
 test('resolveBackendBindHost normalizes wildcard WEBUI_HOST values', (t) => {
   const mainModule = loadMainModule(t, { platform: 'win32' });
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-host-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-host-'));
   t.after(() => fs.rmSync(tmpDir, { recursive: true, force: true }));
   const envPath = path.join(tmpDir, '.env');
   fs.writeFileSync(envPath, 'WEBUI_HOST=*\n', 'utf-8');
@@ -315,15 +315,15 @@ test('resolveBackendBindHost normalizes wildcard WEBUI_HOST values', (t) => {
 
 test('buildBackendEnvironment injects env file WEBUI_HOST into backend process', (t) => {
   const mainModule = loadMainModule(t, { platform: 'win32' });
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-host-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-host-'));
   t.after(() => fs.rmSync(tmpDir, { recursive: true, force: true }));
   const envPath = path.join(tmpDir, '.env');
   fs.writeFileSync(envPath, 'BIND_HOST=0.0.0.0\nWEBUI_HOST=${BIND_HOST}\n', 'utf-8');
 
   const env = mainModule.buildBackendEnvironment({
     envFile: envPath,
-    dbPath: 'C:\\Users\\user\\AppData\\Roaming\\Daily Stock Analysis\\data\\stock_analysis.db',
-    logDir: 'C:\\Users\\user\\AppData\\Roaming\\Daily Stock Analysis\\logs',
+    dbPath: 'C:\\Users\\user\\AppData\\Roaming\\RuyiDailyStockAnalysis\\data\\stock_analysis.db',
+    logDir: 'C:\\Users\\user\\AppData\\Roaming\\RuyiDailyStockAnalysis\\logs',
     port: 8000,
     sourceEnv: {
       PATH: 'C:\\Windows\\System32',
@@ -449,7 +449,7 @@ test('startBackend passes WEBUI_HOST from env file to backend args and env', (t)
       process.env.WEBUI_HOST = previousWebuiHost;
     }
   });
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-host-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-host-'));
   t.after(() => fs.rmSync(tmpDir, { recursive: true, force: true }));
   const envPath = path.join(tmpDir, '.env');
   fs.writeFileSync(envPath, 'BIND_HOST=0.0.0.0\nWEBUI_HOST=${BIND_HOST}\n', 'utf-8');
@@ -512,7 +512,7 @@ test('extractReleaseMetadata ignores releases without semver tags', (t) => {
   assert.equal(
     mainModule.extractReleaseMetadata({
       tag_name: 'desktop-latest',
-      html_url: 'https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/desktop-latest',
+      html_url: 'https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/desktop-latest',
     }),
     null
   );
@@ -524,7 +524,7 @@ test('evaluateReleaseUpdate reports update-available when release is newer', (t)
     currentVersion: '3.12.0',
     release: {
       tag_name: 'v3.13.0',
-      html_url: 'https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/v3.13.0',
+      html_url: 'https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/v3.13.0',
       published_at: '2026-04-25T01:00:00Z',
       name: 'v3.13.0',
     },
@@ -534,7 +534,7 @@ test('evaluateReleaseUpdate reports update-available when release is newer', (t)
   assert.equal(state.status, mainModule.UPDATE_STATUS.UPDATE_AVAILABLE);
   assert.equal(state.currentVersion, '3.12.0');
   assert.equal(state.latestVersion, '3.13.0');
-  assert.equal(state.releaseUrl, 'https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/v3.13.0');
+  assert.equal(state.releaseUrl, 'https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/v3.13.0');
   assert.equal(state.checkedAt, '2026-04-25T01:02:00Z');
   assert.equal(state.publishedAt, '2026-04-25T01:00:00Z');
   assert.match(state.message, /发现新版本 3\.13\.0/);
@@ -546,14 +546,14 @@ test('evaluateReleaseUpdate reports up-to-date when version is current', (t) => 
     currentVersion: '3.13.0',
     release: {
       tag_name: 'v3.13.0',
-      html_url: 'https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/v3.13.0',
+      html_url: 'https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/v3.13.0',
     },
     checkedAt: '2026-04-25T01:02:00Z',
   });
 
   assert.equal(state.status, mainModule.UPDATE_STATUS.UP_TO_DATE);
   assert.equal(state.latestVersion, '3.13.0');
-  assert.equal(state.releaseUrl, 'https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/v3.13.0');
+  assert.equal(state.releaseUrl, 'https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/v3.13.0');
   assert.equal(state.checkedAt, '2026-04-25T01:02:00Z');
   assert.equal(state.publishedAt, '');
 });
@@ -564,7 +564,7 @@ test('evaluateReleaseUpdate reports error when current version is invalid', (t) 
     currentVersion: 'build-20260425',
     release: {
       tag_name: 'v3.13.0',
-      html_url: 'https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/v3.13.0',
+      html_url: 'https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/v3.13.0',
     },
     checkedAt: '2026-04-25T01:02:00Z',
   });
@@ -643,10 +643,10 @@ test('auto download prompt falls back to error when install path fails', async (
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa desktop updater '));
   const exeDir = path.join(tempRoot, 'app');
   const userDataDir = path.join(tempRoot, 'userData');
-  const exePath = path.join(exeDir, 'Daily Stock Analysis.exe');
-  const uninstallPath = path.join(exeDir, 'Uninstall Daily Stock Analysis.exe');
+  const exePath = path.join(exeDir, 'RuyiDailyStockAnalysis.exe');
+  const uninstallPath = path.join(exeDir, 'Uninstall RuyiDailyStockAnalysis.exe');
   const envFile = path.join(exeDir, '.env');
-  const backupRoot = path.join(userDataDir, '.dsa-desktop-update-backup');
+  const backupRoot = path.join(userDataDir, '.ruyi-desktop-update-backup');
   const originalRemove = fs.rmSync;
   let quitAndInstallArgs = null;
   const fakeUpdater = {
@@ -726,12 +726,12 @@ test('auto update backup copies AlphaSift hotspot detail directories recursively
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa desktop updater details '));
   const exeDir = path.join(tempRoot, 'app');
   const userDataDir = path.join(tempRoot, 'userData');
-  const exePath = path.join(exeDir, 'Daily Stock Analysis.exe');
-  const uninstallPath = path.join(exeDir, 'Uninstall Daily Stock Analysis.exe');
+  const exePath = path.join(exeDir, 'RuyiDailyStockAnalysis.exe');
+  const uninstallPath = path.join(exeDir, 'Uninstall RuyiDailyStockAnalysis.exe');
   const detailRelativePath = path.join('data', 'alphasift', 'hotspot_details');
   const detailFileRelativePath = path.join(detailRelativePath, 'ai-compute.json');
   const detailFile = path.join(exeDir, detailFileRelativePath);
-  const backupRoot = path.join(userDataDir, '.dsa-desktop-update-backup');
+  const backupRoot = path.join(userDataDir, '.ruyi-desktop-update-backup');
   let quitAndInstallArgs = null;
   const fakeUpdater = {
     autoDownload: true,
@@ -818,10 +818,10 @@ test('desktop update backup list preserves AlphaSift caches', (t) => {
 });
 
 test('desktop update backup and restore preserve generation backend env keys', (t) => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-env-backup-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-env-backup-'));
   const appDir = path.join(tempRoot, 'app');
   const userDataDir = path.join(tempRoot, 'userData');
-  const backupRoot = path.join(userDataDir, '.dsa-desktop-update-backup');
+  const backupRoot = path.join(userDataDir, '.ruyi-desktop-update-backup');
   const envPath = path.join(appDir, '.env');
   const envContent = [
     'GENERATION_BACKEND=codex_cli',
@@ -834,7 +834,7 @@ test('desktop update backup and restore preserve generation backend env keys', (
 
   fs.mkdirSync(appDir, { recursive: true });
   fs.mkdirSync(userDataDir, { recursive: true });
-  fs.writeFileSync(path.join(appDir, 'Uninstall Daily Stock Analysis.exe'), '');
+  fs.writeFileSync(path.join(appDir, 'Uninstall RuyiDailyStockAnalysis.exe'), '');
   fs.writeFileSync(envPath, envContent, 'utf-8');
 
   const mainModule = loadMainModule(t, {
@@ -843,7 +843,7 @@ test('desktop update backup and restore preserve generation backend env keys', (
       isPackaged: true,
       getPath: (name) => {
         if (name === 'exe') {
-          return path.join(appDir, 'Daily Stock Analysis.exe');
+          return path.join(appDir, 'RuyiDailyStockAnalysis.exe');
         }
         return userDataDir;
       },
@@ -870,10 +870,10 @@ test('desktop update backup and restore preserve generation backend env keys', (
 });
 
 test('desktop update backup and restore preserve AlphaSift detail directories recursively', (t) => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-dir-backup-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-dir-backup-'));
   const appDir = path.join(tempRoot, 'app');
   const userDataDir = path.join(tempRoot, 'userData');
-  const backupRoot = path.join(userDataDir, '.dsa-desktop-update-backup');
+  const backupRoot = path.join(userDataDir, '.ruyi-desktop-update-backup');
   const detailRelativePath = path.join('data', 'alphasift', 'hotspot_details');
   const topicDetailPath = path.join(appDir, detailRelativePath, 'AI算力', 'detail.json');
   const nestedDetailPath = path.join(appDir, detailRelativePath, 'AI算力', 'events', 'latest.json');
@@ -881,7 +881,7 @@ test('desktop update backup and restore preserve AlphaSift detail directories re
 
   fs.mkdirSync(path.dirname(nestedDetailPath), { recursive: true });
   fs.mkdirSync(userDataDir, { recursive: true });
-  fs.writeFileSync(path.join(appDir, 'Uninstall Daily Stock Analysis.exe'), '');
+  fs.writeFileSync(path.join(appDir, 'Uninstall RuyiDailyStockAnalysis.exe'), '');
   fs.writeFileSync(topicDetailPath, '{"topic":"AI算力"}\n', 'utf-8');
   fs.writeFileSync(nestedDetailPath, '{"events":1}\n', 'utf-8');
 
@@ -891,7 +891,7 @@ test('desktop update backup and restore preserve AlphaSift detail directories re
       isPackaged: true,
       getPath: (name) => {
         if (name === 'exe') {
-          return path.join(appDir, 'Daily Stock Analysis.exe');
+          return path.join(appDir, 'RuyiDailyStockAnalysis.exe');
         }
         return userDataDir;
       },
@@ -922,10 +922,10 @@ test('desktop update backup and restore preserve AlphaSift detail directories re
 });
 
 test('macOS packaged runtime state uses userData and migrates old app bundle files', (t) => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-macos-migrate-'));
-  const oldAppDir = path.join(tempRoot, 'Daily Stock Analysis.app', 'Contents', 'MacOS');
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-macos-migrate-'));
+  const oldAppDir = path.join(tempRoot, 'RuyiDailyStockAnalysis.app', 'Contents', 'MacOS');
   const userDataDir = path.join(tempRoot, 'userData');
-  const exePath = path.join(oldAppDir, 'Daily Stock Analysis');
+  const exePath = path.join(oldAppDir, 'RuyiDailyStockAnalysis');
   const oldDbPath = path.join(oldAppDir, 'data', 'stock_analysis.db');
   const oldLogPath = path.join(oldAppDir, 'logs', 'desktop.log');
   const oldHotspotDetailPath = path.join(oldAppDir, 'data', 'alphasift', 'hotspot_details', 'AI算力', 'detail.json');
@@ -979,10 +979,10 @@ test('macOS packaged runtime state uses userData and migrates old app bundle fil
 });
 
 test('macOS runtime migration does not overwrite existing userData files', (t) => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-macos-skip-'));
-  const oldAppDir = path.join(tempRoot, 'Daily Stock Analysis.app', 'Contents', 'MacOS');
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-macos-skip-'));
+  const oldAppDir = path.join(tempRoot, 'RuyiDailyStockAnalysis.app', 'Contents', 'MacOS');
   const userDataDir = path.join(tempRoot, 'userData');
-  const exePath = path.join(oldAppDir, 'Daily Stock Analysis');
+  const exePath = path.join(oldAppDir, 'RuyiDailyStockAnalysis');
 
   fs.mkdirSync(oldAppDir, { recursive: true });
   fs.mkdirSync(userDataDir, { recursive: true });
@@ -1015,14 +1015,14 @@ test('macOS runtime migration does not overwrite existing userData files', (t) =
 });
 
 test('restorePackagedRuntimeStateFromBackup keeps backup when copy fails', (t) => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-restore-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-restore-'));
   const appDir = path.join(tempRoot, 'app');
   const userDataDir = path.join(tempRoot, 'userData');
-  const backupRoot = path.join(userDataDir, '.dsa-desktop-update-backup');
+  const backupRoot = path.join(userDataDir, '.ruyi-desktop-update-backup');
   const backupDbPath = path.join(backupRoot, 'data', 'stock_analysis.db');
   fs.mkdirSync(path.dirname(backupDbPath), { recursive: true });
   fs.mkdirSync(appDir, { recursive: true });
-  fs.writeFileSync(path.join(appDir, 'Uninstall Daily Stock Analysis.exe'), '');
+  fs.writeFileSync(path.join(appDir, 'Uninstall RuyiDailyStockAnalysis.exe'), '');
   fs.writeFileSync(backupDbPath, 'backup-db');
   fs.writeFileSync(
     path.join(backupRoot, 'runtime-state.json'),
@@ -1036,7 +1036,7 @@ test('restorePackagedRuntimeStateFromBackup keeps backup when copy fails', (t) =
       isPackaged: true,
       getPath: (name) => {
         if (name === 'exe') {
-          return path.join(appDir, 'Daily Stock Analysis.exe');
+          return path.join(appDir, 'RuyiDailyStockAnalysis.exe');
         }
         return userDataDir;
       },
@@ -1068,10 +1068,10 @@ test('restorePackagedRuntimeStateFromBackup keeps backup when copy fails', (t) =
 });
 
 test('restorePackagedRuntimeStateFromBackup removes restored files from pending manifest', (t) => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-partial-restore-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-partial-restore-'));
   const appDir = path.join(tempRoot, 'app');
   const userDataDir = path.join(tempRoot, 'userData');
-  const backupRoot = path.join(userDataDir, '.dsa-desktop-update-backup');
+  const backupRoot = path.join(userDataDir, '.ruyi-desktop-update-backup');
   const backupEnvPath = path.join(backupRoot, '.env');
   const backupDbPath = path.join(backupRoot, 'data', 'stock_analysis.db');
   const targetEnvPath = path.join(appDir, '.env');
@@ -1080,7 +1080,7 @@ test('restorePackagedRuntimeStateFromBackup removes restored files from pending 
 
   fs.mkdirSync(path.dirname(backupDbPath), { recursive: true });
   fs.mkdirSync(appDir, { recursive: true });
-  fs.writeFileSync(path.join(appDir, 'Uninstall Daily Stock Analysis.exe'), '');
+  fs.writeFileSync(path.join(appDir, 'Uninstall RuyiDailyStockAnalysis.exe'), '');
   fs.writeFileSync(backupEnvPath, 'backup-env\n', 'utf-8');
   fs.writeFileSync(backupDbPath, 'backup-db');
   fs.writeFileSync(targetEnvPath, 'current-env\n', 'utf-8');
@@ -1096,7 +1096,7 @@ test('restorePackagedRuntimeStateFromBackup removes restored files from pending 
       isPackaged: true,
       getPath: (name) => {
         if (name === 'exe') {
-          return path.join(appDir, 'Daily Stock Analysis.exe');
+          return path.join(appDir, 'RuyiDailyStockAnalysis.exe');
         }
         return userDataDir;
       },
@@ -1131,17 +1131,17 @@ test('restorePackagedRuntimeStateFromBackup removes restored files from pending 
 });
 
 test('restorePackagedRuntimeStateFromBackup skips backup when app version did not change', (t) => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-same-version-restore-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-same-version-restore-'));
   const appDir = path.join(tempRoot, 'app');
   const userDataDir = path.join(tempRoot, 'userData');
-  const backupRoot = path.join(userDataDir, '.dsa-desktop-update-backup');
+  const backupRoot = path.join(userDataDir, '.ruyi-desktop-update-backup');
   const backupEnvPath = path.join(backupRoot, '.env');
   const targetEnvPath = path.join(appDir, '.env');
   const manifestPath = path.join(backupRoot, 'runtime-state.json');
 
   fs.mkdirSync(backupRoot, { recursive: true });
   fs.mkdirSync(appDir, { recursive: true });
-  fs.writeFileSync(path.join(appDir, 'Uninstall Daily Stock Analysis.exe'), '');
+  fs.writeFileSync(path.join(appDir, 'Uninstall RuyiDailyStockAnalysis.exe'), '');
   fs.writeFileSync(backupEnvPath, 'pre-update-env\n', 'utf-8');
   fs.writeFileSync(targetEnvPath, 'user-change-after-aborted-install\n', 'utf-8');
   fs.writeFileSync(
@@ -1156,7 +1156,7 @@ test('restorePackagedRuntimeStateFromBackup skips backup when app version did no
       isPackaged: true,
       getPath: (name) => {
         if (name === 'exe') {
-          return path.join(appDir, 'Daily Stock Analysis.exe');
+          return path.join(appDir, 'RuyiDailyStockAnalysis.exe');
         }
         return userDataDir;
       },
@@ -1178,18 +1178,18 @@ test('restorePackagedRuntimeStateFromBackup skips backup when app version did no
 });
 
 test('createWindow startup path does not throw ReferenceError after restore result handling', async (t) => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'dsa-desktop-startup-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ruyi-desktop-startup-'));
   const appDir = path.join(tempRoot, 'app');
   const userDataDir = path.join(tempRoot, 'userData');
-  const exePath = path.join(appDir, 'Daily Stock Analysis.exe');
-  const uninstallPath = path.join(appDir, 'Uninstall Daily Stock Analysis.exe');
+  const exePath = path.join(appDir, 'RuyiDailyStockAnalysis.exe');
+  const uninstallPath = path.join(appDir, 'Uninstall RuyiDailyStockAnalysis.exe');
   const loadedFiles = [];
   const loadedUrls = [];
   let startupError;
   let updateCheckRequested = false;
   const originalResourcesPathDescriptor = Object.getOwnPropertyDescriptor(process, 'resourcesPath');
   const resourcesPath = path.join(tempRoot, 'resources');
-  const backupRoot = path.join(userDataDir, '.dsa-desktop-update-backup');
+  const backupRoot = path.join(userDataDir, '.ruyi-desktop-update-backup');
   const manifestPath = path.join(backupRoot, 'runtime-state.json');
 
   function fakeBrowserWindow() {

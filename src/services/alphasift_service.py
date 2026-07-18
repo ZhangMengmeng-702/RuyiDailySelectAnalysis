@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""AlphaSift service facade and DSA runtime bridge."""
+"""AlphaSift service facade and Ruyi runtime bridge."""
 
 from __future__ import annotations
 
@@ -819,7 +819,7 @@ class AlphaSiftStrategyResponse(BaseModel):
 
 
 class AlphaSiftService:
-    """Coordinate AlphaSift calls with DSA-owned runtime capabilities."""
+    """Coordinate AlphaSift calls with Ruyi-owned runtime capabilities."""
 
     def __init__(self, config: Config):
         self.config = config
@@ -931,13 +931,13 @@ class AlphaSiftService:
             try:
                 direct_hotspots = provider_arg.hotspot_rows(top=top_count)
             except Exception as exc:
-                logger.warning("AlphaSift DSA direct hotspot fallback failed: %s", exc)
+                logger.warning("AlphaSift Ruyi direct hotspot fallback failed: %s", exc)
                 direct_hotspots = []
                 source_errors.append(f"dsa_direct_hotspots_failed: {exc}")
             if len(direct_hotspots) > len(selected):
                 selected = direct_hotspots
                 direct_hotspot_fallback_used = True
-                source_errors.append("AlphaSift hotspot rows were thin; used DSA EastMoney board-change rows.")
+                source_errors.append("AlphaSift hotspot rows were thin; used Ruyi EastMoney board-change rows.")
         if isinstance(provider_arg, DsaEastMoneyHotspotProvider) and selected:
             selected = _enrich_hotspot_rows_from_provider(selected, provider_arg, top=top_count)
         if not selected and source_errors:
@@ -1420,7 +1420,7 @@ def _ensure_alphasift_available_for_use() -> None:
     normalized_diagnostics = _include_alphasift_diagnostic_suffix(diagnostics)
     if _is_missing_alphasift_module(diagnostics):
         raise _alphasift_unavailable_exception(
-            "AlphaSift 是 DSA 的项目依赖，但当前运行环境未安装适配层。请先执行 `pip install -r requirements.txt`，或重建 Docker/桌面后端产物。",
+            "AlphaSift 是 Ruyi 的项目依赖，但当前运行环境未安装适配层。请先执行 `pip install -r requirements.txt`，或重建 Docker/桌面后端产物。",
             diagnostics=normalized_diagnostics,
         )
     raise _alphasift_unavailable_exception(
@@ -1869,7 +1869,7 @@ def _alphasift_dsa_daily_history_provider() -> Iterator[None]:
                 return normalized
         except Exception as exc:
             logger.warning(
-                "AlphaSift DSA daily history fetch failed for %s; falling back to AlphaSift source %s: %s",
+                "AlphaSift Ruyi daily history fetch failed for %s; falling back to AlphaSift source %s: %s",
                 code,
                 source,
                 exc,
@@ -1892,7 +1892,7 @@ def _resolve_alphasift_snapshot_source_priority(config: Config) -> str:
 
 
 def _build_alphasift_runtime_env(config: Config, *, max_results: Optional[int] = None) -> Dict[str, str]:
-    # Bridge runtime only: only inject resolved DSA values for this request/process scope.
+    # Bridge runtime only: only inject resolved Ruyi values for this request/process scope.
     # User .env/config is never rewritten here; unset channels/models are not silently migrated.
     # 与 LiteLLM provider/model、openai-compatible `api_base` 与 headers 注入语义保持一致，
     # 参见 https://docs.litellm.ai/docs/providers 与
@@ -3254,7 +3254,7 @@ def search_dsa_stock_news(stock_code: str, stock_name: str = "", max_results: in
     if not getattr(service, "is_available", False):
         return {
             "success": False,
-            "error": "DSA search service unavailable",
+            "error": "Ruyi search service unavailable",
             "results": [],
         }
 
@@ -3331,11 +3331,11 @@ def _enrich_candidates_with_dsa(candidates: List[Dict[str, Any]]) -> Tuple[List[
             if enriched.get("dsa_context", {}).get("enriched"):
                 enriched_count += 1
             warnings.extend(enriched.get("dsa_context", {}).get("warnings") or [])
-        except Exception as exc:  # noqa: BLE001 - DSA enrichment must not block screening.
+        except Exception as exc:  # noqa: BLE001 - Ruyi enrichment must not block screening.
             code = candidate.get("code") or f"rank-{candidate.get('rank', index + 1)}"
             message = f"{code}: {exc}"
             warnings.append(message)
-            logger.warning("DSA enrichment failed for AlphaSift candidate %s: %s", code, exc)
+            logger.warning("Ruyi enrichment failed for AlphaSift candidate %s: %s", code, exc)
             candidate["dsa_context"] = {
                 "enriched": False,
                 "warnings": [message],

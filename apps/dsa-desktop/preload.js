@@ -1,6 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
-const DESKTOP_VERSION_ARG_PREFIX = '--dsa-desktop-version=';
+const DESKTOP_VERSION_ARG_PREFIX = '--ruyi-desktop-version=';
 const DESKTOP_GET_UPDATE_STATE_CHANNEL = 'desktop:get-update-state';
 const DESKTOP_CHECK_FOR_UPDATES_CHANNEL = 'desktop:check-for-updates';
 const DESKTOP_INSTALL_DOWNLOADED_UPDATE_CHANNEL = 'desktop:install-downloaded-update';

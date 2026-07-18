@@ -59,7 +59,7 @@ class SystemConfigApiTestCase(unittest.TestCase):
             + "\n",
             encoding="utf-8",
         )
-        self._orig_dsa_desktop_mode = os.environ.get("DSA_DESKTOP_MODE")
+        self._orig_ruyi_desktop_mode = os.environ.get("DSA_DESKTOP_MODE")
         self._orig_database_path = os.environ.get("DATABASE_PATH")
         os.environ["ENV_FILE"] = str(self.env_path)
         os.environ["DATABASE_PATH"] = str(Path(self.temp_dir.name) / "system_config_api_test.db")
@@ -74,10 +74,10 @@ class SystemConfigApiTestCase(unittest.TestCase):
         Config.reset_instance()
         self._verify_session_patch.stop()
         os.environ.pop("ENV_FILE", None)
-        if self._orig_dsa_desktop_mode is None:
+        if self._orig_ruyi_desktop_mode is None:
             os.environ.pop("DSA_DESKTOP_MODE", None)
         else:
-            os.environ["DSA_DESKTOP_MODE"] = self._orig_dsa_desktop_mode
+            os.environ["DSA_DESKTOP_MODE"] = self._orig_ruyi_desktop_mode
         if self._orig_database_path is None:
             os.environ.pop("DATABASE_PATH", None)
         else:
@@ -819,7 +819,7 @@ class SystemConfigApiTestCase(unittest.TestCase):
                 request=TestNotificationChannelRequest(
                     channel="wechat",
                     items=[{"key": "WECHAT_WEBHOOK_URL", "value": "https://example.com/hook"}],
-                    title="DSA 通知测试",
+                    title="Ruyi 通知测试",
                     content="hello",
                     timeout_seconds=5,
                 ),
@@ -837,7 +837,7 @@ class SystemConfigApiTestCase(unittest.TestCase):
         ntfy_request = TestNotificationChannelRequest(
             channel="ntfy",
             items=[{"key": "NTFY_URL", "value": "https://ntfy.sh/dsa-topic"}],
-            title="DSA 通知测试",
+            title="Ruyi 通知测试",
             content="hello",
             timeout_seconds=5,
         )
@@ -847,7 +847,7 @@ class SystemConfigApiTestCase(unittest.TestCase):
                 {"key": "GOTIFY_URL", "value": "https://gotify.example"},
                 {"key": "GOTIFY_TOKEN", "value": "app-token"},
             ],
-            title="DSA 通知测试",
+            title="Ruyi 通知测试",
             content="hello",
             timeout_seconds=5,
         )

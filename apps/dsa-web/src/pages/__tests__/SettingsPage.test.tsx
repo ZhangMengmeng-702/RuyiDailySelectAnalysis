@@ -2561,7 +2561,7 @@ describe('SettingsPage', () => {
       status: 'update-available',
       currentVersion: '3.12.0',
       latestVersion: '3.13.0',
-      releaseUrl: 'https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/v3.13.0',
+      releaseUrl: 'https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/v3.13.0',
       message: '发现新版本 3.13.0，可前往 GitHub Releases 下载更新。',
     });
     (window as { dsaDesktop?: unknown }).dsaDesktop = createDesktopRuntime();
@@ -2588,7 +2588,7 @@ describe('SettingsPage', () => {
       status: 'update-available',
       currentVersion: '3.12.0',
       latestVersion: '3.13.0',
-      releaseUrl: 'https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/v3.13.0',
+      releaseUrl: 'https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/v3.13.0',
       message: '发现新版本 3.13.0，可前往 GitHub Releases 下载更新。',
     });
     (window as { dsaDesktop?: unknown }).dsaDesktop = createDesktopRuntime();
@@ -2599,7 +2599,7 @@ describe('SettingsPage', () => {
 
     await waitFor(() => {
       expect(desktopOpenReleasePage).toHaveBeenCalledWith(
-        'https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/v3.13.0'
+        'https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/v3.13.0'
       );
     });
   });
@@ -2610,7 +2610,7 @@ describe('SettingsPage', () => {
       updateMode: 'auto',
       currentVersion: '3.12.0',
       latestVersion: '3.13.0',
-      releaseUrl: 'https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/v3.13.0',
+      releaseUrl: 'https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/v3.13.0',
       message: '新版本 3.13.0 已下载，可重启应用完成安装。',
       downloadPercent: 100,
     });

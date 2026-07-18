@@ -1,7 +1,7 @@
 # Git 提交规范
 
 > 本规范对本项目有效，**覆盖**全局默认与上游 AGENTS.md 里的**提交前先询问**、**commit message 用英文**、**不加 Co-Authored** 三条约定。
-> 注意：本仓库是开源工具 daily_stock_analysis 的二开 fork，`upstream` 指向原作者仓库。本规范只约束**我们自己产生的提交**；从 upstream 同步进来的提交保持其原貌，不改写。
+> 注意：本仓库是开源工具 RuyiDailyStockAnalysis 的二开 fork，`upstream` 指向原作者仓库。本规范只约束**我们自己产生的提交**；从 upstream 同步进来的提交保持其原貌，不改写。
 
 ## 何时提交
 - **完成一个功能 / 一个完整的改动单元后，立即提交，无需询问**（用户已长期授权）。

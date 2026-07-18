@@ -308,7 +308,7 @@ function formatEnvBackupFilename(isDesktopRuntime: boolean) {
   const pad = (value: number) => value.toString().padStart(2, '0');
   const date = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}`;
   const time = `${pad(now.getHours())}${pad(now.getMinutes())}`;
-  return `${isDesktopRuntime ? 'dsa-desktop-env' : 'dsa-env'}_${date}_${time}.env`;
+  return `${isDesktopRuntime ? 'ruyi-desktop-env' : 'dsa-env'}_${date}_${time}.env`;
 }
 
 const SCHEDULE_TIME_PATTERN = /^(?:[01]\d|2[0-3]):[0-5]\d$/;

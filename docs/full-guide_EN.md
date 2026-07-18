@@ -7,7 +7,7 @@ This document contains the complete configuration guide for the AI Stock Analysi
 ## Project Structure
 
 ```
-daily_stock_analysis/
+RuyiDailyStockAnalysis/
 ├── main.py              # Main entry point
 ├── src/                 # Core business logic
 │   ├── analyzer.py      # AI analyzer
@@ -17,7 +17,7 @@ daily_stock_analysis/
 ├── data_provider/       # Multi-source data adapters
 ├── bot/                 # Bot interaction module
 ├── api/                 # FastAPI backend service
-├── apps/dsa-web/        # React frontend
+├── apps/ruyi-web/        # React frontend
 ├── docker/              # Docker configuration
 ├── docs/                # Project documentation
 └── .github/workflows/   # GitHub Actions
@@ -145,7 +145,7 @@ Go to your forked repo → `Settings` → `Secrets and variables` → `Actions` 
 |------------|------|:----:|
 | `STOCK_LIST` | Watchlist codes, e.g., `600519,300750,002594,7203.T,005930.KS`; English commas are recommended, while pasted Chinese commas, enumeration commas, semicolons, spaces, and newlines are recognized and normalized to English commas | ✅ |
 | `ANSPIRE_API_KEYS` | [Anspire AI Search](https://aisearch.anspire.cn/) optimized for Chinese content; the same key can also be used for Anspire LLM fallback scenarios (example model: `Doubao-Seed-2.0-lite`) | Recommended |
-| `SERPAPI_API_KEYS` | [SerpAPI](https://serpapi.com/baidu-search-api?utm_source=github_daily_stock_analysis) search-engine results for realtime financial news | Recommended |
+| `SERPAPI_API_KEYS` | [SerpAPI](https://serpapi.com/baidu-search-api?utm_source=github_RuyiDailyStockAnalysis) search-engine results for realtime financial news | Recommended |
 | `TAVILY_API_KEYS` | [Tavily](https://tavily.com/) Search API (for news search) | Optional |
 | `BOCHA_API_KEYS` | [Bocha Search](https://open.bocha.cn/) Web Search API (Chinese search optimized, supports AI summaries, multiple keys comma-separated) | Optional |
 | `BRAVE_API_KEYS` | [Brave Search](https://brave.com/search/api/) API (privacy-first, US-stock news enrichment, comma-separated for multiple keys) | Optional |
@@ -177,7 +177,7 @@ To get started quickly, you need at minimum:
 ### 4. Manual Test
 
 1. Go to `Actions` tab
-2. Select `Daily Stock Analysis` workflow on the left
+2. Select `RuyiDailyStockAnalysis` workflow on the left
 3. Click `Run workflow` button on the right
 4. Select run mode
 5. Click green `Run workflow` to confirm
@@ -408,19 +408,19 @@ For the notification baseline, diagnostics, and deployment notes, see [Notificat
 
 ## Docker Deployment
 
-The image uses prebuilt frontend assets under `/app/static` at runtime, so the running `server` container does not require the `apps/dsa-web` source tree or runtime `npm`. If WebUI cannot be opened after Docker deployment, first verify that `/app/static/index.html` exists inside the container.
+The image uses prebuilt frontend assets under `/app/static` at runtime, so the running `server` container does not require the `apps/ruyi-web` source tree or runtime `npm`. If WebUI cannot be opened after Docker deployment, first verify that `/app/static/index.html` exists inside the container.
 
 Official image registries:
 
-- GHCR: `ghcr.io/zhulinsen/daily_stock_analysis:<tag>`
-- Docker Hub: `<DOCKERHUB_USERNAME>/daily_stock_analysis:<tag>` (driven by the publisher's `DOCKERHUB_USERNAME` secret; the official release uses `zhulinsen/daily_stock_analysis`)
+- GHCR: `ghcr.io/zhulinsen/RuyiDailyStockAnalysis:<tag>`
+- Docker Hub: `<DOCKERHUB_USERNAME>/RuyiDailyStockAnalysis:<tag>` (driven by the publisher's `DOCKERHUB_USERNAME` secret; the official release uses `zhulinsen/RuyiDailyStockAnalysis`)
 
 ### Quick Start
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/ZhuLinsen/daily_stock_analysis.git
-cd daily_stock_analysis
+git clone https://github.com/ZhuLinsen/RuyiDailyStockAnalysis.git
+cd RuyiDailyStockAnalysis
 
 # 2. Configure environment variables
 cp .env.example .env
@@ -446,7 +446,7 @@ If you do not want to keep the source tree on the target machine, you can run th
 
 ```bash
 # Web/API mode
-docker pull zhulinsen/daily_stock_analysis:latest
+docker pull zhulinsen/RuyiDailyStockAnalysis:latest
 docker run -d \
   --name dsa-server \
   --env-file .env \
@@ -454,7 +454,7 @@ docker run -d \
   -v "$(pwd)/data:/app/data" \
   -v "$(pwd)/logs:/app/logs" \
   -v "$(pwd)/reports:/app/reports" \
-  zhulinsen/daily_stock_analysis:latest \
+  zhulinsen/RuyiDailyStockAnalysis:latest \
   python main.py --serve-only --host 0.0.0.0 --port 8000
 
 # Scheduled-task mode
@@ -464,7 +464,7 @@ docker run -d \
   -v "$(pwd)/data:/app/data" \
   -v "$(pwd)/logs:/app/logs" \
   -v "$(pwd)/reports:/app/reports" \
-  zhulinsen/daily_stock_analysis:latest
+  zhulinsen/RuyiDailyStockAnalysis:latest
 ```
 
 For pinned deployments or easier rollback, replace `latest` with a concrete version tag such as `v3.13.0`.
@@ -770,7 +770,7 @@ There is no runtime pack master switch. Disabling the P3-P5 pack prompt summary,
 
 Stock analysis now builds a low-sensitivity `market_structure_context` and exposes it as `AnalysisReport.details.market_structure` in history detail, sync analysis responses, and completed task status responses. The contract has two layers: `market_theme_context` for the market/theme layer, and `stock_market_position` for the individual stock's position inside those themes.
 
-The first version is DSA-native: it uses `DataFetcherManager.get_sector_rankings()`, `get_concept_rankings()`, and `fundamental_context.belong_boards`. It does not require AlphaSift at runtime. AlphaSift hotspot details, route timelines, constituents, and leader stocks can be migrated later as optional sources; until then, missing constituent/leader evidence is explicit and the stock role stays conservative (`follower`, `edge`, or `unknown`). Non-A-share markets return `not_supported`.
+The first version is Ruyi-native: it uses `DataFetcherManager.get_sector_rankings()`, `get_concept_rankings()`, and `fundamental_context.belong_boards`. It does not require AlphaSift at runtime. AlphaSift hotspot details, route timelines, constituents, and leader stocks can be migrated later as optional sources; until then, missing constituent/leader evidence is explicit and the stock role stays conservative (`follower`, `edge`, or `unknown`). Non-A-share markets return `not_supported`.
 
 Compatibility boundary: provider/model snapshot fields in this change (including `model_used` and market structure source provider markers) are display/history metadata only. They do not participate in runtime provider routing, `base URL`, model selection, `.env` config cleanup, or migration/overwrite logic.
 
@@ -931,7 +931,7 @@ Set `CUSTOM_WEBHOOK_URLS`, separate multiple with commas.
 If AstrBot, NapCat, or a self-hosted service requires a custom request body, set
 `CUSTOM_WEBHOOK_BODY_TEMPLATE`. This is a global template and is rendered before
 URL auto-detected payloads such as Bark, Slack, or Discord. If the rendered value
-is not a JSON object, DSA falls back to the default payload. Prefer
+is not a JSON object, Ruyi falls back to the default payload. Prefer
 `$content_json` / `$title_json` so newlines and quotes stay valid JSON:
 
 ```env
@@ -1589,4 +1589,4 @@ Technical indicator rules use daily-close edge triggers only. Partial-bar handli
 
 ---
 
-For more questions, please [submit an Issue](https://github.com/ZhuLinsen/daily_stock_analysis/issues)
+For more questions, please [submit an Issue](https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/issues)

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""DSA-native market hotspot context service.
+"""Ruyi-native market hotspot context service.
 
 This service intentionally does not import AlphaSift.  It builds the first
-market-theme layer from DSA's existing industry/concept ranking providers and
+market-theme layer from Ruyi's existing industry/concept ranking providers and
 returns explicit data-quality markers when richer hotspot evidence is missing.
 """
 
@@ -40,7 +40,7 @@ RANKING_FETCH_TIMEOUT_RETRY_DELAY_SECONDS = 0.2
 
 
 class MarketHotspotService:
-    """Build low-sensitive A-share market/theme context from DSA rankings."""
+    """Build low-sensitive A-share market/theme context from Ruyi rankings."""
 
     _ranking_fetch_slots = threading.BoundedSemaphore(RANKING_FETCH_MAX_WORKERS)
     _ranking_fetch_futures: Dict[Hashable, Future] = {}

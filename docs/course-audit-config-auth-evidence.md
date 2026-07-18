@@ -87,14 +87,14 @@
 | 认证状态、密码、会话、限流、CLI 重置 | `src/auth.py` |
 | 登录/设置/改密/退出 API | `api/v1/endpoints/auth.py` |
 | API Cookie 保护 | `api/middlewares/auth.py` |
-| 前端路由、原地址保留 | `apps/dsa-web/src/App.tsx`、`pages/LoginPage.tsx`、`api/index.ts` |
+| 前端路由、原地址保留 | `apps/ruyi-web/src/App.tsx`、`pages/LoginPage.tsx`、`api/index.ts` |
 | 配置文件读写/版本冲突/原子更新 | `src/core/config_manager.py` |
 | 配置字段、默认值、敏感标记 | `src/core/config_registry.py` |
 | 配置读取、遮盖、校验、测试、导入导出 | `src/services/system_config_service.py` |
 | 系统设置 API | `api/v1/endpoints/system_config.py` |
-| 设置页/智能导入/模型渠道/通知测试 | `apps/dsa-web/src/pages/SettingsPage.tsx`、`components/settings/*` |
-| 回测 404 空状态 | `api/v1/endpoints/backtest.py`、`apps/dsa-web/src/api/backtest.ts` |
-| dev 页面验收工具 | `apps/dsa-web/e2e/page-audit.spec.ts`、`page-catalog.json`（仅 dev） |
+| 设置页/智能导入/模型渠道/通知测试 | `apps/ruyi-web/src/pages/SettingsPage.tsx`、`components/settings/*` |
+| 回测 404 空状态 | `api/v1/endpoints/backtest.py`、`apps/ruyi-web/src/api/backtest.ts` |
+| dev 页面验收工具 | `apps/ruyi-web/e2e/page-audit.spec.ts`、`page-catalog.json`（仅 dev） |
 
 ## 5. 系统设置与配置模型
 
@@ -158,7 +158,7 @@
 
 现有登录截图对应第 2 种 UI，但状态由 Playwright mock，不是实际启用认证后的截图。没有现成证据覆盖首次密码真正写入、错误密码、成功 Cookie、退出、原地址回跳或过期。
 
-登录页底部固定显示“DSA-V3-TLS”风格文案，但本地截图基于 HTTP。该文案不是 TLS 连接证据，PPT 不得据此宣称 HTTPS/TLS 已部署。
+登录页底部固定显示“Ruyi-V3-TLS”风格文案，但本地截图基于 HTTP。该文案不是 TLS 连接证据，PPT 不得据此宣称 HTTPS/TLS 已部署。
 
 ## 8. Cookie、Bearer Token 与管理 API
 

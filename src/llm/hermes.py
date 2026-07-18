@@ -199,7 +199,7 @@ def canonicalize_hermes_base_url(base_url: str) -> str:
 
 
 def canonicalize_hermes_model_ref(raw_model: str) -> HermesModelRef:
-    """Return the canonical DSA route and LiteLLM wire model for Hermes.
+    """Return the canonical Ruyi route and LiteLLM wire model for Hermes.
 
     Hermes is OpenAI-compatible over local HTTP, so both route identity and
     outbound wire model use LiteLLM's openai/ namespace.  The display label is

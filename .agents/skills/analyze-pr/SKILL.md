@@ -2,7 +2,7 @@
 
 分析 GitHub Pull Request，评估必要性、描述完整性、验证证据、主要风险与是否可直接合入。
 
-**Repository**: https://github.com/ZhuLinsen/daily_stock_analysis/pulls
+**Repository**: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/pulls
 
 ## Usage
 
@@ -32,10 +32,10 @@ git pull --ff-only
 ### Step 2: 拉取 PR 基本信息
 
 ```bash
-gh pr view <pr_number> --repo ZhuLinsen/daily_stock_analysis
-gh pr view <pr_number> --repo ZhuLinsen/daily_stock_analysis --comments
-gh pr checks <pr_number> --repo ZhuLinsen/daily_stock_analysis
-gh pr diff <pr_number> --repo ZhuLinsen/daily_stock_analysis
+gh pr view <pr_number> --repo ZhuLinsen/RuyiDailyStockAnalysis
+gh pr view <pr_number> --repo ZhuLinsen/RuyiDailyStockAnalysis --comments
+gh pr checks <pr_number> --repo ZhuLinsen/RuyiDailyStockAnalysis
+gh pr diff <pr_number> --repo ZhuLinsen/RuyiDailyStockAnalysis
 ```
 
 如有失败的 CI，优先查看失败日志，而不是立刻在本地重跑全部检查：
@@ -83,7 +83,7 @@ gh run view <run_id> --log-failed
 如果必须补本地验证，按改动面选择最接近的检查，例如：
 
 - 后端：`./scripts/ci_gate.sh` 或 `python -m py_compile <changed_python_files>`
-- 前端：`cd apps/dsa-web && npm ci && npm run lint && npm run build`
+- 前端：`cd apps/ruyi-web && npm ci && npm run lint && npm run build`
 - 桌面端：先构建 Web，再构建 Electron
 
 ### Step 5: 评估正确性与风险

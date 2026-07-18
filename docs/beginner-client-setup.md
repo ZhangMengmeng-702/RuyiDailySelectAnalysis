@@ -16,7 +16,7 @@
 
 打开发布页：
 
-<https://github.com/ZhuLinsen/daily_stock_analysis/releases/latest>
+<https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/latest>
 
 在页面下方 `Assets`（附件）里下载：
 
@@ -34,7 +34,7 @@
 ## 2. 安装并打开
 
 - Windows 安装包：双击 `.exe`，按提示安装，安装目录用默认位置即可。
-- Windows 免安装包：解压 `.zip`，双击 `Daily Stock Analysis.exe`。
+- Windows 免安装包：解压 `.zip`，双击 `RuyiDailyStockAnalysis.exe`。
 - macOS：双击 `.dmg`，把应用拖到 `Applications`。如果提示来自未验证开发者，在系统设置的隐私与安全性里允许打开。
 
 macOS 用户升级前建议先在客户端设置里导出一次配置备份。
@@ -96,7 +96,7 @@ macOS 用户升级前建议先在客户端设置里导出一次配置备份。
 按你的模型服务选择：
 
 1. 用 Anspire Open：找到 `Anspire API Keys`，填入同一个 Anspire Key，保存成功后即可。
-2. 用 AIHubMix：建议再申请 [SerpAPI](https://serpapi.com/baidu-search-api?utm_source=github_daily_stock_analysis) 或 [Tavily](https://tavily.com/) 的 Key，填到 `SerpAPI API Keys` 或 `Tavily API Keys`，保存成功后即可。
+2. 用 AIHubMix：建议再申请 [SerpAPI](https://serpapi.com/baidu-search-api?utm_source=github_RuyiDailyStockAnalysis) 或 [Tavily](https://tavily.com/) 的 Key，填到 `SerpAPI API Keys` 或 `Tavily API Keys`，保存成功后即可。
 
 想先试用也可以跳过新闻源，客户端仍然能生成基础分析。
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 ===================================
-A股自选股智能分析系统 - 配置管理模块
+如意金股 - 配置管理模块
 ===================================
 
 职责：
@@ -892,7 +892,7 @@ class Config:
     
     # 邮件配置（只需邮箱和授权码，SMTP 自动识别）
     email_sender: Optional[str] = None  # 发件人邮箱
-    email_sender_name: str = "daily_stock_analysis股票分析助手"  # 发件人显示名称
+    email_sender_name: str = "RuyiDailyStockAnalysis股票分析助手"  # 发件人显示名称
     email_password: Optional[str] = None  # 邮箱密码/授权码
     email_receivers: List[str] = field(default_factory=list)  # 收件人列表（留空则发给自己）
 
@@ -1836,7 +1836,7 @@ class Config:
             telegram_chat_id=os.getenv('TELEGRAM_CHAT_ID'),
             telegram_message_thread_id=os.getenv('TELEGRAM_MESSAGE_THREAD_ID'),
             email_sender=os.getenv('EMAIL_SENDER'),
-            email_sender_name=os.getenv('EMAIL_SENDER_NAME', 'daily_stock_analysis股票分析助手'),
+            email_sender_name=os.getenv('EMAIL_SENDER_NAME', 'RuyiDailyStockAnalysis股票分析助手'),
             email_password=os.getenv('EMAIL_PASSWORD'),
             email_receivers=[r.strip() for r in os.getenv('EMAIL_RECEIVERS', '').split(',') if r.strip()],
             stock_email_groups=cls._parse_stock_email_groups(),
@@ -2898,7 +2898,7 @@ class Config:
                     message=(
                         "OPENCODE_CLI_MODEL 是可选的 OpenCode 模型覆盖值。"
                         "配置时会作为单个 --model 参数传给 OpenCode，不能包含空白或 shell 元字符；"
-                        "不配置时 DSA 将使用 OpenCode 自身默认模型。"
+                        "不配置时 Ruyi 将使用 OpenCode 自身默认模型。"
                     ),
                     field="OPENCODE_CLI_MODEL",
                 ))

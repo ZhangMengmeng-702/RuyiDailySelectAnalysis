@@ -352,14 +352,14 @@ docker-compose -f ./docker/docker-compose.yml up -d
 
 ```bash
 # Initialize git (if not already)
-cd /path/to/daily_stock_analysis
+cd /path/to/RuyiDailyStockAnalysis
 git init
 git add .
 git commit -m "Initial commit"
 
 # Create GitHub repo and push
 # After creating new repo on GitHub web:
-git remote add origin https://github.com/your-username/daily_stock_analysis.git
+git remote add origin https://github.com/your-username/RuyiDailyStockAnalysis.git
 git branch -M main
 git push -u origin main
 ```
@@ -410,7 +410,7 @@ git push
 #### 4. Manual Test Run
 
 1. Go to repo page → **Actions** tab
-2. Select **"Daily Stock Analysis"** workflow
+2. Select **"RuyiDailyStockAnalysis"** workflow
 3. Click **"Run workflow"** button
 4. Select run mode:
    - `full` - Full analysis (stocks + market)

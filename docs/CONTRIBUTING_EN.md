@@ -4,7 +4,7 @@ Thank you for your interest in contributing! All kinds of contributions are welc
 
 ## 🐛 Reporting Bugs
 
-1. Search [Issues](https://github.com/ZhuLinsen/daily_stock_analysis/issues) first to check if it has already been reported.
+1. Search [Issues](https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/issues) first to check if it has already been reported.
 2. Create a new Issue using the **Bug Report** template.
 3. Provide detailed reproduction steps and environment information.
 
@@ -20,8 +20,8 @@ Thank you for your interest in contributing! All kinds of contributions are welc
 
 ```bash
 # Clone the repository
-git clone https://github.com/ZhuLinsen/daily_stock_analysis.git
-cd daily_stock_analysis
+git clone https://github.com/ZhuLinsen/RuyiDailyStockAnalysis.git
+cd RuyiDailyStockAnalysis
 
 # Create a virtual environment
 python -m venv venv
@@ -82,7 +82,7 @@ After opening a PR, CI will automatically run the following PR checks:
 |-------|-------------|:--------:|
 | `backend-gate` | `scripts/ci_gate.sh` — py_compile + flake8 critical errors + `./scripts/test.sh code` + `./scripts/test.sh yfinance` + offline pytest | ✅ |
 | `docker-build` | Docker image build and key module import smoke test | ✅ |
-| `web-gate` | `npm run lint` + `npm run build` (triggered when `apps/dsa-web/` changes) | ✅ (when triggered) |
+| `web-gate` | `npm run lint` + `npm run build` (triggered when `apps/ruyi-web/` changes) | ✅ (when triggered) |
 
 Separately, the repository also has a non-blocking `network-smoke` workflow in `.github/workflows/network-smoke.yml`, but it is only triggered by `schedule` and `workflow_dispatch`, not by pull requests.
 
@@ -94,8 +94,8 @@ pip install -r requirements.txt
 pip install flake8 pytest
 ./scripts/ci_gate.sh
 
-# Frontend gate (only if you changed apps/dsa-web/)
-cd apps/dsa-web
+# Frontend gate (only if you changed apps/ruyi-web/)
+cd apps/ruyi-web
 npm ci
 npm run lint
 npm run build

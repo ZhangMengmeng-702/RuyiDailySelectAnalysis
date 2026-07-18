@@ -73,11 +73,11 @@ function Ensure-DesktopDependencies {
 }
 
 Write-Host 'Building Electron desktop app...'
-Push-Location (Join-Path $repoRoot 'apps\dsa-desktop')
+Push-Location (Join-Path $repoRoot 'apps\ruyi-desktop')
 Ensure-DesktopDependencies
 
 Write-Host 'Stopping running app (if any)...'
-Get-Process -Name "Daily Stock Analysis" -ErrorAction SilentlyContinue | Stop-Process -Force
+Get-Process -Name "RuyiDailyStockAnalysis" -ErrorAction SilentlyContinue | Stop-Process -Force
 Get-Process -Name "stock_analysis" -ErrorAction SilentlyContinue | Stop-Process -Force
 
 if (Test-Path 'dist\win-unpacked') {

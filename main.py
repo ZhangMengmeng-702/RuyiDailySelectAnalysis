@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 ===================================
-A股自选股智能分析系统 - 主调度程序
+如意金股 - 主调度程序
 ===================================
 
 职责：
@@ -269,7 +269,7 @@ def _reload_env_file_values_preserving_overrides() -> None:
 def parse_arguments() -> argparse.Namespace:
     """解析命令行参数"""
     parser = argparse.ArgumentParser(
-        description='A股自选股智能分析系统',
+        description='如意金股',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog='''
 示例:
@@ -1271,7 +1271,7 @@ def main() -> int:
         return 1
 
     logger.info("=" * 60)
-    logger.info("A股自选股智能分析系统 启动")
+    logger.info("如意金股 启动")
     logger.info(f"运行时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     logger.info("=" * 60)
 

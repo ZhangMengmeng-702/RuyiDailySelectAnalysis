@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 ===================================
-A股自选股智能分析系统 - 搜索服务模块
+如意金股 - 搜索服务模块
 ===================================
 
 职责：
@@ -442,7 +442,7 @@ class SerpAPISearchProvider(BaseSearchProvider):
     - 免费版每月 100 次请求
     - 返回真实的搜索结果
     
-    文档：https://serpapi.com/baidu-search-api?utm_source=github_daily_stock_analysis
+    文档：https://serpapi.com/baidu-search-api?utm_source=github_RuyiDailyStockAnalysis
     """
 
     _ORGANIC_CONTENT_FETCH_LIMIT = 1

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-> **如意二开层**：本仓库是开源项目 daily_stock_analysis 的二开 fork，对外品牌名「如意每日金股分析系统 / RuyiDailyStockAnalysis」。`.claude/rules/`（`git.md` 提交规范、`blog.md` 博客规范）是本项目专属约定，与本文件或全局默认冲突时**以 `.claude/rules/` 为准**（例如：本项目提交信息用详细中文并保留 `Co-Authored-By`；博客写作见 `blog.md`）。二开层只约束我们自己产生的改动；从 `upstream` 同步进来的提交与文件保持原貌。
+> **如意二开层**：本仓库是开源项目 RuyiDailyStockAnalysis 的二开 fork，对外品牌名「如意如意金股 / RuyiDailyStockAnalysis」。`.claude/rules/`（`git.md` 提交规范、`blog.md` 博客规范）是本项目专属约定，与本文件或全局默认冲突时**以 `.claude/rules/` 为准**（例如：本项目提交信息用详细中文并保留 `Co-Authored-By`；博客写作见 `blog.md`）。二开层只约束我们自己产生的改动；从 `upstream` 同步进来的提交与文件保持原貌。
 
 本文件用于约束本仓库的默认开发流程，目标是减少重复沟通、减少返工，并让改动和当前项目结构保持一致。
 
@@ -10,8 +10,8 @@
 
 - 遵循现有目录边界：
   - 后端逻辑优先放在 `src/`、`data_provider/`、`api/`、`bot/`
-  - Web 前端改动在 `apps/dsa-web/`
-  - 桌面端改动在 `apps/dsa-desktop/`
+  - Web 前端改动在 `apps/ruyi-web/`
+  - 桌面端改动在 `apps/ruyi-desktop/`
   - 部署与流水线改动在 `scripts/`、`.github/workflows/`、`docker/`
 - 未经明确确认，不执行 `git commit`、`git tag`、`git push`。
 - commit message 使用英文，不添加 `Co-Authored-By`。
@@ -59,13 +59,13 @@ python scripts/check_ai_assets.py
 
 ## 3. 仓库速览
 
-- 项目定位：股票智能分析系统，覆盖 A 股、港股、美股。
+- 项目定位：如意金股，覆盖 A 股、港股、美股。
 - 主流程：抓取数据 -> 技术分析/新闻检索 -> LLM 分析 -> 生成报告 -> 通知推送。
 - 关键入口：
   - `main.py`：分析任务主入口
   - `server.py`：FastAPI 服务入口
-  - `apps/dsa-web/`：Web 前端
-  - `apps/dsa-desktop/`：Electron 桌面端
+  - `apps/ruyi-web/`：Web 前端
+  - `apps/ruyi-desktop/`：Electron 桌面端
   - `.github/workflows/`：CI、发布、每日任务
 - 核心职责：
   - `src/core/`：主流程编排
@@ -110,12 +110,12 @@ python -m py_compile <changed_python_files>
 ### Web / Desktop
 
 ```bash
-cd apps/dsa-web
+cd apps/ruyi-web
 npm ci
 npm run lint
 npm run build
 
-cd ../dsa-desktop
+cd ../ruyi-desktop
 npm install
 npm run build
 ```
@@ -171,17 +171,17 @@ gh run view <run_id> --log-failed
   - 若影响 API、任务编排、报告生成、通知发送、数据源 fallback、认证、调度，交付说明中要写明是否覆盖了对应路径。
 
 - Web 前端改动：
-  - 适用范围：`apps/dsa-web/`
-  - 默认执行：`cd apps/dsa-web && npm ci && npm run lint && npm run build`
+  - 适用范围：`apps/ruyi-web/`
+  - 默认执行：`cd apps/ruyi-web && npm ci && npm run lint && npm run build`
   - 若涉及 API 联调、路由、状态管理、Markdown/图表渲染或认证状态，交付说明中要明确说明联动面和未覆盖风险。
 
 - 桌面端改动：
-  - 适用范围：`apps/dsa-desktop/`、`scripts/run-desktop.ps1`、`scripts/build-desktop*.ps1`、`scripts/build-*.sh`、`docs/desktop-package.md`
+  - 适用范围：`apps/ruyi-desktop/`、`scripts/run-desktop.ps1`、`scripts/build-desktop*.ps1`、`scripts/build-*.sh`、`docs/desktop-package.md`
   - 默认执行：先构建 Web，再构建桌面端
   - 如受平台限制未能完整验证，需要明确说明是否验证了 Web 构建产物、Electron 构建以及 Release 工作流影响。
 
 - API / Schema / 认证联动改动：
-  - 适用范围：`api/**`、`src/schemas/**`、`src/services/**`、`apps/dsa-web/**`、`apps/dsa-desktop/**`
+  - 适用范围：`api/**`、`src/schemas/**`、`src/services/**`、`apps/ruyi-web/**`、`apps/ruyi-desktop/**`
   - 至少覆盖对应后端验证 + 受影响客户端构建验证。
   - 若涉及登录、Cookie、会话、轮询状态、字段增删或枚举变化，必须明确写出兼容性影响。
 

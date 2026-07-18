@@ -47,7 +47,7 @@
 来源证据：
 
 - 验收 JSON 和图片全部位于 `D:\quant\RuyiDailyStockAnalysis\.tmp\page-audit\页面截图`，生成时间是 `2026-07-11T23:11:02.468Z`，即北京时间 2026-07-12 07:11:02。
-- 生成脚本 `apps/dsa-web/e2e/page-audit.spec.ts` 只存在于 dev 提交 `605fd015...` 的改动中，`version/v0.1.0` 没有该脚本。
+- 生成脚本 `apps/ruyi-web/e2e/page-audit.spec.ts` 只存在于 dev 提交 `605fd015...` 的改动中，`version/v0.1.0` 没有该脚本。
 - Playwright 默认从 dev 仓库根启动后端；Token 截图的 22,267 Token、168 次调用、模型和峰值与 dev 数据库逐项一致，与教学库的 36,218 Token、3 次调用明显不一致。
 - 验收脚本只访问页面、等待元素、检查 HTTP/Console 错误并截图；它没有发送 AI 问股问题，也没有断言工具调用或模型成功。
 - 验收脚本只对登录状态做 mock；AI 问股、Token 和系统设置没有 mock，但“不 mock”仍只代表读取了当时 dev 后端状态，不代表数据是真实供应商调用。
@@ -58,9 +58,9 @@
 
 | 层 | 关键文件 | 关键职责 |
 | --- | --- | --- |
-| Web 页面 | `apps/dsa-web/src/pages/ChatPage.tsx:585` | 组装消息、会话 ID、技能和股票/报告上下文 |
-| Web 状态 | `apps/dsa-web/src/stores/agentChatStore.ts:232` | 发起 SSE、展示阶段/工具事件、处理完成和失败 |
-| Web API | `apps/dsa-web/src/api/agent.ts:86` | POST `/api/v1/agent/chat/stream` |
+| Web 页面 | `apps/ruyi-web/src/pages/ChatPage.tsx:585` | 组装消息、会话 ID、技能和股票/报告上下文 |
+| Web 状态 | `apps/ruyi-web/src/stores/agentChatStore.ts:232` | 发起 SSE、展示阶段/工具事件、处理完成和失败 |
+| Web API | `apps/ruyi-web/src/api/agent.ts:86` | POST `/api/v1/agent/chat/stream` |
 | Agent API | `api/v1/endpoints/agent.py:373` | 校验 Agent 可用性、创建执行器、把事件转成 SSE |
 | 工厂 | `src/agent/factory.py:176`、`:297` | 注册 18 个工具、加载技能、按 `AGENT_ARCH` 构建单 Agent/多 Agent |
 | Prompt/会话 | `src/agent/executor.py:565` | 构建系统 Prompt、拼历史和报告上下文、保存用户/助手消息 |
@@ -71,7 +71,7 @@
 | 工具执行 | `src/agent/tools/execution.py:248` | 股票范围保护、异常包装、不可重试缓存、结果序列化 |
 | Token 归一化 | `src/llm/usage.py:275` | 供应商 usage、缓存/推理字段归一化和有效性检查 |
 | Token 存储/聚合 | `src/storage.py:3061`、`:3086`、`:3229` | 单次写入、按类型/模型聚合、最近调用 |
-| Token API/UI | `api/v1/endpoints/usage.py:89`、`apps/dsa-web/src/pages/TokenUsagePage.tsx` | 时间范围查询和页面展示 |
+| Token API/UI | `api/v1/endpoints/usage.py:89`、`apps/ruyi-web/src/pages/TokenUsagePage.tsx` | 时间范围查询和页面展示 |
 
 ## 5. AI 问股真实调用链
 

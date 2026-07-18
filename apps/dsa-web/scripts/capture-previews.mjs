@@ -11,7 +11,7 @@ import { mkdir } from 'node:fs/promises';
 import PAGE_CATALOG from '../e2e/page-catalog.json' with { type: 'json' };
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-// 仓库根目录：apps/dsa-web/scripts -> 上溯三级
+// 仓库根目录：apps/ruyi-web/scripts -> 上溯三级
 const repoRoot = resolve(__dirname, '..', '..', '..');
 
 // 解析命令行参数

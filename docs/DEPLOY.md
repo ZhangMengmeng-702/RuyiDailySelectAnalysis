@@ -1,6 +1,6 @@
 # 🚀 部署指南
 
-本文档介绍如何将 A股自选股智能分析系统部署到服务器。
+本文档介绍如何将 如意金股部署到服务器。
 
 ## 📋 部署方案对比
 
@@ -169,7 +169,7 @@ sudo vim /etc/systemd/system/stock-analyzer.service
 内容：
 ```ini
 [Unit]
-Description=A股自选股智能分析系统
+Description=如意金股
 After=network.target
 
 [Service]
@@ -342,7 +342,7 @@ deploy:
   ```bash
   # 安装 Node.js 18+（推荐 20+，如尚未安装）
   # 构建前端
-  cd apps/dsa-web
+  cd apps/ruyi-web
   npm ci
   npm run build
   cd ../..
@@ -394,14 +394,14 @@ docker-compose -f ./docker/docker-compose.yml up -d
 
 ```bash
 # 初始化 git（如果还没有）
-cd /path/to/daily_stock_analysis
+cd /path/to/RuyiDailyStockAnalysis
 git init
 git add .
 git commit -m "Initial commit"
 
 # 创建 GitHub 仓库并推送
 # 在 GitHub 网页上创建新仓库后：
-git remote add origin https://github.com/你的用户名/daily_stock_analysis.git
+git remote add origin https://github.com/你的用户名/RuyiDailyStockAnalysis.git
 git branch -M main
 git push -u origin main
 ```

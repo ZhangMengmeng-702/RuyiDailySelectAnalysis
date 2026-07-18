@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-> For user-friendly release highlights, see the [GitHub Releases](https://github.com/ZhuLinsen/daily_stock_analysis/releases) page.
+> For user-friendly release highlights, see the [GitHub Releases](https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases) page.
 
 ## [Unreleased]
 
@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - [改进] Web AI 建议页新增主股票上下文，复用最近分析和股票索引候选，并改进表现统计零样本说明。
 - [改进] 补充本次设置页布局收敛：移动端分类导航改为横向滚动列表并保证设置内容首屏可见，桌面端保留分类说明并收紧字段布局层级与间距，提升首屏效率与可配置信息密度。
 - [文档] 在 README 快速开始中补充行情数据源配置说明（TUSHARE_TOKEN / Longbridge），明确未配置时仍可走 AkShare、Baostock、YFinance 等免费兜底源，日志中相关提示不影响运行。同步更新docs下的中英双份 README
-- [改进] 新增 #1743 Phase 6a 内部 DSA Tool Surface 契约，统一工具 schema、stock scope fail-closed guard、结构化错误、审计摘要和脱敏诊断边界，并明确外部 AgentBackend 工具能力仍需 wire-level probe 证明。
+- [改进] 新增 #1743 Phase 6a 内部 Ruyi Tool Surface 契约，统一工具 schema、stock scope fail-closed guard、结构化错误、审计摘要和脱敏诊断边界，并明确外部 AgentBackend 工具能力仍需 wire-level probe 证明。
 
 - [修复] 桌面与 Docker 发布显式安装 `orjson`，桌面 PyInstaller 产物同时冻结并执行运行时导入探针，避免 LiteLLM 调用时报 `No module named 'orjson'`。
 - [改进] 个股报告不再单独展示“题材主线与个股位置”卡片，相关市场结构数据仍保留在分析上下文、模型 Prompt 与决策信号提取链路中。
@@ -44,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - feat: Web 首页新增历史、自选与今日工作区，支持批量分析、今日覆盖判断和评分排行。
 - feat: 新增 A 股市场结构与题材主线上下文，并贯通报告、Agent、DecisionSignal 与 Web 展示。
 - feat: 飞书支持文件形式推送报告，多 Agent 支持子 Agent 独立超时钳位。
-- feat: 补齐内部 DSA Tool Surface、DecisionAgent 分歧摘要和 DecisionSignal profile 契约。
+- feat: 补齐内部 Ruyi Tool Surface、DecisionAgent 分歧摘要和 DecisionSignal profile 契约。
 - fix: 统一报告动作口径，修复按股票代码批量删除历史记录和通知理由静默截断问题。
 - fix: 改进 Web、桌面端、数据源缓存及发行包资源的稳定性。
 
@@ -65,7 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Web AI 建议页新增主股票上下文，复用最近分析和股票索引候选，并改进表现统计零样本说明。
 - DecisionSignal 将 `decision_profile` 升级为正式 nullable 字段，统一 same-profile 查询、去重、续期和失效语义，并保持 create metadata `null` 兼容与 SQLite 幂等回填诊断。
 - 设置页移动端分类导航改为横向滚动列表并保证设置内容首屏可见，桌面端保留分类说明并收紧字段布局层级与间距。
-- 新增 #1743 Phase 6a 内部 DSA Tool Surface 契约，统一工具 schema、stock scope fail-closed guard、结构化错误、审计摘要和脱敏诊断边界，并明确外部 AgentBackend 工具能力仍需 wire-level probe 证明。
+- 新增 #1743 Phase 6a 内部 Ruyi Tool Surface 契约，统一工具 schema、stock scope fail-closed guard、结构化错误、审计摘要和脱敏诊断边界，并明确外部 AgentBackend 工具能力仍需 wire-level probe 证明。
 - `src/services/analysis_service.py` 在 `report` 详情层新增 `details.raw_result` 回填，补齐与 API/历史详情的报告载荷一致性；不改变 provider、model、Base URL 或配置迁移语义。
 
 ### 修复
@@ -135,7 +135,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### 文档
 
 - 新增 Agent `/chat/stream` progress event 契约文档，说明新增事件字段语义、Web 兼容边界、验证方式和回滚方式。
-- 同步本地 CLI backend 隐私/部署边界，明确 local CLI 不是离线模型，Docker/CI/远端需自行安装登录，DSA 不读取 Claude/OpenCode credential 文件。
+- 同步本地 CLI backend 隐私/部署边界，明确 local CLI 不是离线模型，Docker/CI/远端需自行安装登录，Ruyi 不读取 Claude/OpenCode credential 文件。
 - 更新 README 三语入口和市场支持边界，说明台股 `.TW` / `.TWO`、三大法人报告区块、TWD 标注与收盘竞价识别能力边界。
 
 ### 测试
@@ -179,7 +179,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Web 历史报告详情不再内嵌 AI 建议卡片，结构化决策信号集中到 AI 建议页，并保留来源报告 ID/URL 参数精确定位。
 - `GENERATION_BACKEND=codex_cli` 下普通分析与大盘复盘不再因缺少 LiteLLM API Key 被误判不可用，并改用 `--output-last-message` 文件读取最终响应。
 - 本地 CLI backend 对 stdout/stderr 诊断预览和最终响应实行执行期总量上限，并补齐新增 generation backend 数字配置最大值校验。
-- AlphaSift 默认依赖 pin 更新到 `0a7b9cd59e81718f851890535241bc105d4ddc64`，并默认走 DSA EastMoney 兜底 provider、暴露 source health 诊断。
+- AlphaSift 默认依赖 pin 更新到 `0a7b9cd59e81718f851890535241bc105d4ddc64`，并默认走 Ruyi EastMoney 兜底 provider、暴露 source health 诊断。
 - Docker Compose 默认内存建议提升到 1G；每日分析 workflow 兼容误将 `STOCK_LIST` 配到同名 Environment variables 的场景。
 - Agent 路径同步 signal attribution prompt，通知报告摘要不再展开 AI 决策信号明细，完整信号保留在个股详情与单股报告。
 
@@ -235,7 +235,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - 为 `DecisionSignal` 补齐默认生命周期、同源窄 relaxed 去重、相反 active 信号自动 invalidated、terminal 状态不可 PATCH 复活和低敏 market phase hints 提取。
 - 补充 Web decision-signals typed API wrapper 与契约隔离测试，并将历史报告 AI 建议查询收口到精确报告懒提取。
-- DSA 数据源链路新增 Tencent 日 K 直连 fetcher、daily source health 短期熔断，并升级 AlphaSift 默认 pin/runtime bridge。
+- Ruyi 数据源链路新增 Tencent 日 K 直连 fetcher、daily source health 短期熔断，并升级 AlphaSift 默认 pin/runtime bridge。
 - 默认启用 `DAILY_SOURCE=auto`、Sina snapshot 优先级、候选级 quote context 与 LLM ranking timeout/max tokens 边界。
 - 新增 legacy LLM usage provider/cache telemetry、message HMAC 诊断字段和普通个股分析 legacy message stability audit，不改变公开 Usage API、prompt 或 provider 参数。
 - 问股页移动端策略选择改为默认收起的按钮入口，展开后仍可多选策略并在发送后自动收起，减少对对话内容的遮挡。
@@ -290,13 +290,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - 补充 Web decision-signals typed API wrapper 与契约隔离测试，暂不接入 UI。
 - 完善运行时日志上下文，补充 logger name、触发来源、市场统计与实时行情预取链路状态，便于排查调度、API、Bot 和数据源降级路径。
 - 持仓管理页新增持仓账户删除入口，复用现有账户软删除接口，误建账户会从默认列表、快照、风险、录入入口和事件列表隐藏且不物理清理历史流水。
-- AlphaSift 依赖锁定更新到 `d038c52c468543726fc1fd830b53c27d3f09d6da`，并为新版 last-good snapshot、日线历史、行业/概念 provider cache、hotspot 榜单、题材发酵路线、概念股详情、上次成功热点缓存与 post-analysis 元信息补齐 DSA 运行期和 Web 适配。
+- AlphaSift 依赖锁定更新到 `d038c52c468543726fc1fd830b53c27d3f09d6da`，并为新版 last-good snapshot、日线历史、行业/概念 provider cache、hotspot 榜单、题材发酵路线、概念股详情、上次成功热点缓存与 post-analysis 元信息补齐 Ruyi 运行期和 Web 适配。
 - AlphaSift 热点题材读取默认优先使用上次成功缓存，手动刷新才实时拉取并覆盖缓存，实时拉取失败时尽量回退旧缓存。
 - AlphaSift 热点题材区域改为默认折叠，展开并选中具体题材后再读取详情；发酵路线改为带时间标记的时间线展示，概念股可点击进入首页并直接启动分析。
 - AlphaSift 热点题材数据链路复用同一次东方财富板块异动快照，并从真实涨跌幅、异动次数和高频个股推导趋势分、持续分、阶段与龙头样本。
-- AlphaSift 热点题材刷新在合约层返回少量或缺少关键字段时改用 DSA 东方财富板块异动直连榜单，忽略少于 3 条的本地热点缓存，并补齐板块兜底字段。
+- AlphaSift 热点题材刷新在合约层返回少量或缺少关键字段时改用 Ruyi 东方财富板块异动直连榜单，忽略少于 3 条的本地热点缓存，并补齐板块兜底字段。
 - AlphaSift 热点题材卡片改为更紧凑的多列布局，概念股列表改为独立“分析”按钮触发个股分析；详情优先合并东方财富成分股、同花顺解析和板块异动龙头兜底并按日聚合发酵时间线。
-- AlphaSift 热点题材详情新增 DSA 侧 30 分钟磁盘缓存，重复点开同一题材时复用发酵时间线与概念股详情；题材事件仅展示 AlphaSift 合约时间线、同花顺摘要、已配置新闻搜索或东财板块异动等真实来源。
+- AlphaSift 热点题材详情新增 Ruyi 侧 30 分钟磁盘缓存，重复点开同一题材时复用发酵时间线与概念股详情；题材事件仅展示 AlphaSift 合约时间线、同花顺摘要、已配置新闻搜索或东财板块异动等真实来源。
 - AlphaSift 热点题材消息催化改为摘要展示：配置 LLM 时优先压缩为一句题材催化摘要，未配置或调用失败时回退本地短摘要。
 - AlphaSift 热点题材列表新增可选 `include_details` 详情预取，Web 默认随热点列表批量带回 Top 题材发酵路线与概念股并复用前端内存缓存；新闻催化在 LLM 不可用时改为本地事件归纳。
 - 改造 `main.py --webui-only` 启动行为：若 FastAPI 监听端口已被占用，启动即 fail-fast 抛出明确错误并退出。
@@ -322,7 +322,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 测试
 
-- 覆盖 #1381 后端 runtime 与兼容核验：`tests/test_main_schedule_mode.py`、`tests/test_pipeline_daily_market_context.py`、`tests/test_daily_market_context.py`、`tests/test_daily_market_context_guardrail.py`、`tests/test_agent_executor.py`、`tests/test_config_env_compat.py`、`tests/test_config_registry.py` 与 `apps/dsa-web/tests/system_config_i18n.test.ts`。
+- 覆盖 #1381 后端 runtime 与兼容核验：`tests/test_main_schedule_mode.py`、`tests/test_pipeline_daily_market_context.py`、`tests/test_daily_market_context.py`、`tests/test_daily_market_context_guardrail.py`、`tests/test_agent_executor.py`、`tests/test_config_env_compat.py`、`tests/test_config_registry.py` 与 `apps/ruyi-web/tests/system_config_i18n.test.ts`。
 - 新增/更新 AlphaSift 后端回归：`python -m pytest tests/test_alphasift_api.py -q`、`python -m pytest tests/test_docker_entrypoint.py -q`、`python -m pytest tests/test_main_schedule_mode.py -q -k "start_api_server_fails_before_thread_when_port_is_busy"`。
 
 ## [3.21.0] - 2026-06-07
@@ -331,7 +331,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - feat: 新增 Web UI 中英文界面语言切换和飞书 App Bot 通知模式，提升多人部署和企业通知场景体验。
 - feat: 大盘复盘报告、历史入口和个股栏继续收口到结构化数据与统一 Markdown/GFM 渲染，Web/API 人工触发入口不再被交易日 gate 短路。
-- feat: AlphaSift 选股链路改为可恢复后台任务，并完善 DSA LLM runtime bridge、默认适配层预置和兼容回归。
+- feat: AlphaSift 选股链路改为可恢复后台任务，并完善 Ruyi LLM runtime bridge、默认适配层预置和兼容回归。
 - fix: 修复英文界面残留中文、诊断展示、运行时环境变量展示、健康检查、桌面更新路径、工作流变量读取和多处 Web 窄布局问题。
 
 ### 新功能
@@ -347,7 +347,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Web/API 大盘复盘人工触发入口不再因交易日检查或相关市场休市而短路跳过；定时任务、GitHub Actions 手动运行和 CLI 默认入口仍保持原交易日 gate。
 - AlphaSift Web 选股改为后台任务提交与状态轮询，新增可恢复任务状态展示，避免外部快照、行情或 LLM 变慢时浏览器长请求超时。
 - AlphaSift 选股 API 与服务层收敛到 `AlphaSiftService`，endpoint 仅做路由参数接收与错误映射。
-- AlphaSift 与 DSA 的运行时 LLM 兼容桥接改为调用期注入，保留 `provider/model/base_url/custom headers/fallback` 语义链路，不做持久化迁移。
+- AlphaSift 与 Ruyi 的运行时 LLM 兼容桥接改为调用期注入，保留 `provider/model/base_url/custom headers/fallback` 语义链路，不做持久化迁移。
 - Web 首页侧栏不再单独展示大盘复盘历史集合，最新大盘复盘作为 `MARKET` 并入个股栏，按最近分析时间参与排序，并复用个股栏的选择、删除、完整报告与历史趋势查看能力。
 - 多股通知报告将市场阶段收敛为总览下方单行 `市场状态`，不再在每只股票摘要下重复展示数据质量和限制详情。
 - API 错误响应构造收敛到共享 helper，保持既有错误 envelope 形状并降低 endpoint 重复代码。
@@ -363,14 +363,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - 问股自由文本追问不再将 TTM、PE、YOY 等金融缩写误识别为新股票代码。
 - [修复] GitHub Actions 每日分析工作流读取 SearXNG 自建实例地址时支持 Variables 优先、Secrets 回退，修复仅配置 Variables 时 URL 不生效的问题。
 - Web/桌面端左侧导航选中态改用 border 实现，避免蓝色竖条指示器溢出侧栏边界；侧栏展开宽度 116px -> 136px，新增 rail 紧凑模式。
-- Windows 桌面端自动更新安装目录不再预先加引号，避免带空格路径在自动安装时触发“缺少快捷方式 / 找不到 Daily Stock Analysis.exe”的系统弹窗。
+- Windows 桌面端自动更新安装目录不再预先加引号，避免带空格路径在自动安装时触发“缺少快捷方式 / 找不到 RuyiDailyStockAnalysis.exe”的系统弹窗。
 - Agent 分析路径生成 AnalysisContextPack overview 前复用已落库日线分析上下文，避免日线已抓取成功仍显示 `daily_bars_missing`。
 - 修正大盘复盘结构化 `breadth` 的可用性判断：当市场不支持或抓取失败时不下发 `breadth`，前端展示“暂无数据”，避免误导性 0 值。
 - 大盘复盘语言行为遵循全局 `report_language`，并在美股中文场景下本地化市场标签与策略蓝图，避免混入英文策略段落。
 - Docker Web 设置页读取配置时在活跃 `.env` 文件缺项时回退展示启动注入的同名环境变量，并补清相关挂载边界文档。
 - 报告页运行诊断会区分数据源抓取成功与进入 LLM 分析输入，相关新闻区标注为报告页补充/后续检索资讯，避免与输入数据块状态互相误读。
 - `/health` 根路径健康检查现在始终返回 JSON，避免静态 Web fallback 吞掉健康探针；`/api/health` 与 `/api/v1/health` 继续保持兼容。
-- `ALPHASIFT_ENABLED` 关闭时不触发 `alphasift` 运行时注入；开启后优先复用已配置的 DSA/provider 配置并注入 `LITELLM_*` 与 `LLM_*` 运行时变量。
+- `ALPHASIFT_ENABLED` 关闭时不触发 `alphasift` 运行时注入；开启后优先复用已配置的 Ruyi/provider 配置并注入 `LITELLM_*` 与 `LLM_*` 运行时变量。
 - 补齐 openai-compatible 场景下 base URL、`extra_headers` 与 `LITELLM_FALLBACK_MODELS` 的兼容路径与回退链验证。
 - 桌面/镜像打包链路保持与运行时一致的 AlphaSift 适配层预置，避免 `pip install` 作为线上修复依赖。
 
@@ -447,9 +447,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Agent 分析路径生成 AnalysisContextPack overview 前复用已落库日线分析上下文，避免日线已抓取成功仍显示 `daily_bars_missing`。
 - 注册 /api/v1/health 路由并加入认证豁免，修复该路径返回 404 以及开启 ADMIN_AUTH_ENABLED 后健康探针收到 401 的问题。
 - Windows 本地首次运行环境检查兼容非 UTF-8 控制台输出，并将 `requirements.txt` 注释改为 ASCII 以降低默认代码页下的依赖安装失败概率。
-- AlphaSift DSA 适配层默认开启 LLM 重排，后端显式请求 `use_llm=True`，选股页展示 LLM 分数、判断、覆盖率和关注项。
-- AlphaSift 嵌入 DSA 时复用 DSA 已解析的 LLM 模型、渠道和密钥配置，避免 Web 已配置 LLM 但选股 LLM 重排仍因缺少 provider key 降级。
-- AlphaSift 选股复用 DSA LLM 路由时过滤未声明的托管 provider 备选模型，并把已声明渠道模型补入回退链，避免残留 Gemini fallback 覆盖可用的 DSA 渠道。
+- AlphaSift Ruyi 适配层默认开启 LLM 重排，后端显式请求 `use_llm=True`，选股页展示 LLM 分数、判断、覆盖率和关注项。
+- AlphaSift 嵌入 Ruyi 时复用 Ruyi 已解析的 LLM 模型、渠道和密钥配置，避免 Web 已配置 LLM 但选股 LLM 重排仍因缺少 provider key 降级。
+- AlphaSift 选股复用 Ruyi LLM 路由时过滤未声明的托管 provider 备选模型，并把已声明渠道模型补入回退链，避免残留 Gemini fallback 覆盖可用的 Ruyi 渠道。
 - AlphaSift 默认安装来源改为锁定 commit 的受信任 GitHub 地址；桌面模式自动安装不要求管理员会话，非桌面部署要求管理员认证会话，并继续限制安装来源。
 - 修复 Web 开启 AlphaSift 时先安装后写配置导致默认关闭状态无法开启的问题。
 - AlphaSift 状态与安装接口不再返回 `install_spec` 明文，仅返回 `install_spec_is_default` 等非敏感状态字段。
@@ -467,12 +467,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 文档
 
-- 明确 AlphaSift 与 LiteLLM 兼容边界：仅桥接 DSA 已声明 provider/model/base URL 为调用期注入，不对 `.env` 做 provider/model 路由迁移；回退方式为关闭 AlphaSift 并恢复原有 `LITELLM_*`/`LLM_*` 配置。
-- 明确 AlphaSift 仅复用 DSA 现有 LLM/LiteLLM 配置语义，不新增 `LITELLM_MODEL`、`OPENAI_MODEL`、`OPENAI_BASE_URL`、`LLM_TIMEOUT_SEC` 等模型语义迁移；失败提示与回退路径统一沿用既有系统配置链路，仅影响 AlphaSift 选股能力本身。
+- 明确 AlphaSift 与 LiteLLM 兼容边界：仅桥接 Ruyi 已声明 provider/model/base URL 为调用期注入，不对 `.env` 做 provider/model 路由迁移；回退方式为关闭 AlphaSift 并恢复原有 `LITELLM_*`/`LLM_*` 配置。
+- 明确 AlphaSift 仅复用 Ruyi 现有 LLM/LiteLLM 配置语义，不新增 `LITELLM_MODEL`、`OPENAI_MODEL`、`OPENAI_BASE_URL`、`LLM_TIMEOUT_SEC` 等模型语义迁移；失败提示与回退路径统一沿用既有系统配置链路，仅影响 AlphaSift 选股能力本身。
 - 明确 AlphaSift 自动安装来源锁定、`missing_module` 与运行时异常行为边界，以及 LLM/provider/base URL 与自定义通道回退路径，便于问题溯源与回滚到原有 LLM 配置。
 - 明确同股历史趋势新增模型字段为历史快照展示元数据，不影响运行时 LLM Provider/Model/Base URL 路由与配置迁移清理；回退方式为按常规发布回滚本变更。
 - 明确 #1311 的兼容性边界：渲染层仅消费分析结果 `model_used` 展示字段，未改动 `wechat/slack/feishu/telegram` sender 发送链路，不触发 provider/model/base_url 兼容迁移。
-- 明确 AlphaSift 锁定 commit 的 `alphasift.dsa_adapter` 契约依据，以及当前 DSA API/Web 调用结构的兼容边界。
+- 明确 AlphaSift 锁定 commit 的 `alphasift.dsa_adapter` 契约依据，以及当前 Ruyi API/Web 调用结构的兼容边界。
 - 明确 Settings 页面对 LLM 配置仅做展示分组与字段归并，不改写或触发 LLM 迁移/回退路径；兼容现有 `LLM` 配置保存与回退语义。
 - 新增 AnalysisContextPack P0 上下文盘点。
 - 补齐告警中心 P8 文档与配置收口说明，明确 legacy JSON、高级规则、Web/API、Docker、GitHub Actions 与 Desktop 边界。
@@ -722,7 +722,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - 📊 **大盘复盘升级为盘后工作台式结构** — A 股复盘固定输出盘面温度、指数明细、板块 Top 表、新闻催化、明日交易计划和风险提示，减少纯文字复盘的重复与空泛。
 - 🖥️ **桌面端新增 GitHub Release 更新提醒** — Windows/macOS 桌面端启动后自动检测新版本，也可从设置页手动检查并跳转下载页。
 - 🤖 **Pipeline Agent 数据加载大幅降噪** — K 线工具改为 DB-first 并预热 240 天历史数据，避免同一只股票重复 HTTP 请求。
-- 🐳 **Docker 发布链路整理** — 发布工作流收敛为正式发布与手动补发两条路径，官方 Docker Hub 镜像名统一为 `zhulinsen/daily_stock_analysis`。
+- 🐳 **Docker 发布链路整理** — 发布工作流收敛为正式发布与手动补发两条路径，官方 Docker Hub 镜像名统一为 `zhulinsen/RuyiDailyStockAnalysis`。
 - 🔧 **LLM 渠道与 DeepSeek V4 配置补强** — GitHub Actions 定时分析补齐多渠道变量透传，DeepSeek 官方渠道预设与示例同步到 V4。
 - 🧩 **桌面端静态资源一致性校验** — 打包链路和运行时都能更早发现静态资源错配，降低 Release 包白屏排查成本。
 
@@ -734,7 +734,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### 改进
 
 - 📊 **A 股大盘复盘报告改为结构化盘后工作台版式** — 固定输出盘面温度、指数明细、板块 Top 表、新闻催化和明日交易计划。
-- 🐳 **Docker 发布工作流收敛** — 更清晰地区分正式发布与手动补发链路，并统一官方 Docker Hub 镜像名为 `zhulinsen/daily_stock_analysis`。
+- 🐳 **Docker 发布工作流收敛** — 更清晰地区分正式发布与手动补发链路，并统一官方 Docker Hub 镜像名为 `zhulinsen/RuyiDailyStockAnalysis`。
 - 🤖 **Agent 日线工具优先复用本地缓存** — 同时持久化新获取的日线与新闻情报，减少重复数据源调用。
 
 ### 修复
@@ -761,7 +761,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### 测试
 
 - 🧪 **稳定市场复盘相关测试的 LiteLLM stub 行为** — 避免本机安装的 LiteLLM 在测试收集顺序变化时影响市场复盘单元测试。
-- 🧪 **pytest 默认跳过前端依赖目录** — 本地存在 `apps/dsa-web/node_modules` 时不再被后端测试递归扫描，避免发布前 gate 被无关目录拖慢。
+- 🧪 **pytest 默认跳过前端依赖目录** — 本地存在 `apps/ruyi-web/node_modules` 时不再被后端测试递归扫描，避免发布前 gate 被无关目录拖慢。
 
 ## [3.13.0] - 2026-04-21
 
@@ -803,7 +803,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - 📊 **移除 `sentiment_score` 范围约束**（fixes #942）— 移除 `HistoryItem` 与 `ReportSummary` 响应 Schema 中 `sentiment_score` 的 `ge=0/le=100` 约束，历史库中存储的超范围值不再触发 Pydantic ValidationError。
 - 🖥️ **WebUI 前端资源缺失时发出明确警告** — `webui_frontend.py` 在 `static/index.html` 存在但 `static/assets/` 缺失时发出 warning，避免 CSS/JS 资源缺失导致页面异常变大却无从排查（fixes #944）。
 - 🔗 **分析管线可选服务降级初始化** — `StockAnalysisPipeline` 搜索服务与社交舆情服务任一初始化异常时，记录 warning 并以禁用状态继续运行，避免外部依赖抖动阻塞主分析链路。
-- 🖥️ **桌面端版本展示统一读取 `package.json`** — 统一读取 `apps/dsa-desktop/package.json`，移除 preload 中硬编码的 `0.1.0`，设置页展示真实桌面端版本；修复版本号显示错误（fixes #1048）。
+- 🖥️ **桌面端版本展示统一读取 `package.json`** — 统一读取 `apps/ruyi-desktop/package.json`，移除 preload 中硬编码的 `0.1.0`，设置页展示真实桌面端版本；修复版本号显示错误（fixes #1048）。
 - 🐋 **港股名称获取失败修复**（fixes #940）— 修复主数据源字段缺失时无法正确回退到备用字段获取港股名称的问题。
 - 🔄 **SSE 任务流断开时 `CancelledError` 正确 re-raise**（fixes #967）— 修复 SSE 流中断时异常被静默吞掉导致故障无日志可查的问题。
 - 🔄 **Agent SSE 清理阶段后台任务异常正确上报**（fixes #969）— 流结束时后台执行器异常现在正确记录并上报，避免错误无法感知。
@@ -842,7 +842,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### 新功能
 
 - 📊 **回测页新增"次日验证 / 1 日窗口"视图** — 可按股票代码与分析日期范围查看 AI 预测、次日实际涨跌及筛选区间准确率，复用历史分析与 1 日回测结果实现。
-- 🏷️ **Web 设置页新增版本信息卡片** — `apps/dsa-web` 现在会在构建时注入前端包版本与构建时间，系统设置页新增只读"版本信息"区块，展示 `WebUI 版本 / 构建标识 / 构建时间`；当 `package.json` 仍为占位版本 `0.0.0` 时，会自动回退为构建标识，方便 Docker 重建后快速确认当前静态资源是否已经生效。
+- 🏷️ **Web 设置页新增版本信息卡片** — `apps/ruyi-web` 现在会在构建时注入前端包版本与构建时间，系统设置页新增只读"版本信息"区块，展示 `WebUI 版本 / 构建标识 / 构建时间`；当 `package.json` 仍为占位版本 `0.0.0` 时，会自动回退为构建标识，方便 Docker 重建后快速确认当前静态资源是否已经生效。
 - 🪟 **Windows 桌面安装器支持自选安装目录** — 安装器改为支持在安装向导中自定义安装目录，安装到非默认盘符后仍沿用现有打包态目录逻辑在安装目录旁读写 `.env`、`data/stock_analysis.db` 和 `logs/desktop.log`，同时保留 `win-unpacked` 免安装分发方式。安装器仅支持当前用户安装、已禁用管理员提权（`allowElevation: false`），并通过 NSIS `.onVerifyInstDir` 阻止选择系统保护目录。
 
 ### 改进
@@ -853,7 +853,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### 修复
 
 - 🚀 **启动早期失败时暴露真实根因** — `python main.py` 现在通过 stderr 暴露真实根因，bootstrap 阶段不再向硬编码 `logs/` 目录写入文件日志，文件日志推迟到 `config.log_dir` 可用后创建，避免健康启动在非预期路径残留日志文件。
-- 🐳 **Docker WebUI 运行时优先复用预构建静态资源** — `prepare_webui_frontend_assets()` 现在会先检查镜像内已有的 `static/index.html` 是否可直接复用；当容器运行时不包含 `apps/dsa-web` 源码目录且未安装 `npm` 时，也不会误报"未找到前端项目，无法自动构建"，从而恢复 Docker 部署后的 WebUI 打开能力。
+- 🐳 **Docker WebUI 运行时优先复用预构建静态资源** — `prepare_webui_frontend_assets()` 现在会先检查镜像内已有的 `static/index.html` 是否可直接复用；当容器运行时不包含 `apps/ruyi-web` 源码目录且未安装 `npm` 时，也不会误报"未找到前端项目，无法自动构建"，从而恢复 Docker 部署后的 WebUI 打开能力。
 - 🐳 **Docker WebUI 系统设置保存后配置生效** — Docker 场景下 WebUI 保存 `STOCK_LIST`、`SCHEDULE_ENABLED`、`SCHEDULE_TIME`、`SCHEDULE_RUN_IMMEDIATELY`、`RUN_IMMEDIATELY` 后，`Config` 会优先读取持久化 `.env` 中的新值，避免被容器创建时注入的旧环境变量覆盖。
 - 📈 **市场复盘 LLM max_tokens 提升** — 市场复盘生成链路将 LLM `max_tokens` 从 `2048` 提升到 `8192`，降低长复盘输出因 `MAX_TOKENS` 提前截断导致内容未完成的概率。
 - ⏰ **内置定时调度器感知 SCHEDULE_TIME 运行时变更** — 调度器现在会在运行中感知 WebUI 保存后的 `SCHEDULE_TIME` 变化，并在下一轮检查时重绑 daily job。
@@ -898,7 +898,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 修复
 
-- 🌗 **Web 首屏默认主题预设为深色** — `apps/dsa-web/index.html` 现在会在 React 挂载前读取本地保存的主题偏好；若没有已保存值，则立即给 `<html>` 预设 `dark` 并同步 `color-scheme`，避免首页和登录页首屏先闪出浅色主题。
+- 🌗 **Web 首屏默认主题预设为深色** — `apps/ruyi-web/index.html` 现在会在 React 挂载前读取本地保存的主题偏好；若没有已保存值，则立即给 `<html>` 预设 `dark` 并同步 `color-scheme`，避免首页和登录页首屏先闪出浅色主题。
 - 🔐 **登录页独立主题层收口** — 登录页输入框、标签、切换按钮和按钮文案现在使用独立的 `--login-*` 视觉 token，不再继承全局浅/深主题文字色；即使浏览器缓存了浅色主题，登录页仍保持稳定的深色视觉与青色密码输入表现，避免密码圆点和文案落成黑色。
 - 🖥️ **首页港股代码输入修复** — Web 首页分析输入框现在可正确接受港股代码与自动完成选中的港股项，补齐 `00700.HK` / `HK00700` 等格式识别，避免提交时误报“请输入有效的股票代码或股票名称”。
 
@@ -1129,7 +1129,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - 🗑️ **History batch deletion** — Web UI now supports multi-selection and batch deletion of analysis history; added `POST /api/v1/history/batch-delete` endpoint and `ConfirmDialog` component.
 - 🔐 **Auth settings API** — new `POST /api/v1/auth/settings` endpoint to enable or disable Web authentication at runtime and set the initial admin password when needed
-- openclaw Skill 集成指南 — 新增 [docs/openclaw-skill-integration.md](openclaw-skill-integration.md)，说明如何通过 openclaw Skill 调用 DSA API
+- openclaw Skill 集成指南 — 新增 [docs/openclaw-skill-integration.md](openclaw-skill-integration.md)，说明如何通过 openclaw Skill 调用 Ruyi API
 - ⚙️ **LLM channel protocol/test UX** — `.env` and Web settings now share the same channel shape (`LLM_CHANNELS` + `LLM_<NAME>_PROTOCOL/BASE_URL/API_KEY/MODELS/ENABLED`); settings page adds per-channel connection testing, primary/fallback/vision model selection, and protocol-aware model prefixing
 - 🤖 **Agent architecture Phase 0+1** — shared protocols (`AgentContext`, `AgentOpinion`, `StageResult`), extracted `run_agent_loop()` runner, `AGENT_ARCH` switch (`single`/`multi`), config registry entries
 - 🔍 **Bot NL routing** — two-layer natural-language routing: cheap regex pre-filter (stock codes + finance keywords) → lightweight LLM intent parsing; controlled by `AGENT_NL_ROUTING=true`; supports multi-stock and strategy extraction
@@ -1903,26 +1903,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - 核心 API：支持 `/analysis` (触发分析), `/tasks` (查询进度), `/health` (健康检查)
   - 交互界面：支持页面直接输入代码并触发分析，实时展示进度
   - 运行模式：新增 `--webui-only` 模式，仅启动 Web 服务
-  - 解决了 [#70](https://github.com/ZhuLinsen/daily_stock_analysis/issues/70) 的核心需求（提供触发分析的接口）
-- ⚙️ GitHub Actions 配置灵活性增强（[#79](https://github.com/ZhuLinsen/daily_stock_analysis/issues/79)）
+  - 解决了 [#70](https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/issues/70) 的核心需求（提供触发分析的接口）
+- ⚙️ GitHub Actions 配置灵活性增强（[#79](https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/issues/79)）
   - 支持从 Repository Variables 读取非敏感配置（如 STOCK_LIST, GEMINI_MODEL）
   - 保持对 Secrets 的向下兼容
 
 ### 修复
-- 🐛 修复企业微信/飞书报告截断问题（[#73](https://github.com/ZhuLinsen/daily_stock_analysis/issues/73)）
+- 🐛 修复企业微信/飞书报告截断问题（[#73](https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/issues/73)）
   - 移除 notification.py 中不必要的长度硬截断逻辑
   - 依赖底层自动分片机制处理长消息
-- 🐛 修复 GitHub Workflow 环境变量缺失（[#80](https://github.com/ZhuLinsen/daily_stock_analysis/issues/80)）
+- 🐛 修复 GitHub Workflow 环境变量缺失（[#80](https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/issues/80)）
   - 修复 `CUSTOM_WEBHOOK_BEARER_TOKEN` 未正确传递到 Runner 的问题
 
 ## [1.5.0] - 2026-01-17
 
 ### 新增
-- 📲 单股推送模式（[#55](https://github.com/ZhuLinsen/daily_stock_analysis/issues/55)）
+- 📲 单股推送模式（[#55](https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/issues/55)）
   - 每分析完一只股票立即推送，不用等全部分析完
   - 命令行参数：`--single-notify`
   - 环境变量：`SINGLE_STOCK_NOTIFY=true`
-- 🔐 自定义 Webhook Bearer Token 认证（[#51](https://github.com/ZhuLinsen/daily_stock_analysis/issues/51)）
+- 🔐 自定义 Webhook Bearer Token 认证（[#51](https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/issues/51)）
   - 支持需要 Token 认证的 Webhook 端点
   - 环境变量：`CUSTOM_WEBHOOK_BEARER_TOKEN`
 
@@ -2026,69 +2026,69 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
-[Unreleased]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.25.0...HEAD
-[3.25.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.24.1...v3.25.0
-[3.24.1]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.24.0...v3.24.1
-[3.24.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.23.0...v3.24.0
-[3.23.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.22.0...v3.23.0
-[3.22.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.21.1...v3.22.0
-[3.21.1]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.21.0...v3.21.1
-[3.21.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.20.0...v3.21.0
-[3.20.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.19.0...v3.20.0
-[3.19.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.18.0...v3.19.0
-[3.18.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.17.1...v3.18.0
-[3.17.1]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.17.0...v3.17.1
-[3.17.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.16.0...v3.17.0
-[3.16.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.15.0...v3.16.0
-[3.15.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.14.2...v3.15.0
-[3.14.2]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.14.1...v3.14.2
-[3.14.1]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.14.0...v3.14.1
-[3.14.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.13.0...v3.14.0
-[3.13.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.12.0...v3.13.0
-[3.12.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.11.0...v3.12.0
-[3.11.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.10.1...v3.11.0
-[3.10.1]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.10.0...v3.10.1
-[3.10.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.9.0...v3.10.0
-[3.9.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.8.0...v3.9.0
-[3.8.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.7.0...v3.8.0
-[3.7.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.6.0...v3.7.0
-[3.6.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.5.0...v3.6.0
-[3.5.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.4.10...v3.5.0
-[3.4.10]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.4.9...v3.4.10
-[3.4.9]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.4.8...v3.4.9
-[3.4.8]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.4.7...v3.4.8
-[3.4.7]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.4.0...v3.4.7
-[3.4.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.3.22...v3.4.0
-[3.3.22]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.3.12...v3.3.22
-[3.3.12]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.2.11...v3.3.12
-[3.2.11]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v3.2.10...v3.2.11
-[2.3.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.2.5...v2.3.0
-[2.2.5]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.2.4...v2.2.5
-[2.2.4]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.2.3...v2.2.4
-[2.2.3]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.2.2...v2.2.3
-[2.2.2]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.2.1...v2.2.2
-[2.2.1]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.2.0...v2.2.1
-[2.2.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.14...v2.2.0
-[2.1.14]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.13...v2.1.14
-[2.1.13]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.12...v2.1.13
-[2.1.12]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.11...v2.1.12
-[2.1.11]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.10...v2.1.11
-[2.1.10]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.9...v2.1.10
-[2.1.9]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.8...v2.1.9
-[2.1.8]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.7...v2.1.8
-[2.1.7]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.6...v2.1.7
-[2.1.6]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.5...v2.1.6
-[2.1.5]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.4...v2.1.5
-[2.1.4]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.3...v2.1.4
-[2.1.3]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.2...v2.1.3
-[2.1.2]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.1...v2.1.2
-[2.1.1]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.1.0...v2.1.1
-[2.1.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v2.0.0...v2.1.0
-[2.0.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v1.6.0...v2.0.0
-[1.6.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v1.5.0...v1.6.0
-[1.5.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v1.4.0...v1.5.0
-[1.4.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v1.3.0...v1.4.0
-[1.3.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v1.2.0...v1.3.0
-[1.2.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v1.1.0...v1.2.0
-[1.1.0]: https://github.com/ZhuLinsen/daily_stock_analysis/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/ZhuLinsen/daily_stock_analysis/releases/tag/v1.0.0
+[Unreleased]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.25.0...HEAD
+[3.25.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.24.1...v3.25.0
+[3.24.1]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.24.0...v3.24.1
+[3.24.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.23.0...v3.24.0
+[3.23.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.22.0...v3.23.0
+[3.22.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.21.1...v3.22.0
+[3.21.1]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.21.0...v3.21.1
+[3.21.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.20.0...v3.21.0
+[3.20.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.19.0...v3.20.0
+[3.19.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.18.0...v3.19.0
+[3.18.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.17.1...v3.18.0
+[3.17.1]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.17.0...v3.17.1
+[3.17.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.16.0...v3.17.0
+[3.16.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.15.0...v3.16.0
+[3.15.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.14.2...v3.15.0
+[3.14.2]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.14.1...v3.14.2
+[3.14.1]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.14.0...v3.14.1
+[3.14.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.13.0...v3.14.0
+[3.13.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.12.0...v3.13.0
+[3.12.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.11.0...v3.12.0
+[3.11.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.10.1...v3.11.0
+[3.10.1]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.10.0...v3.10.1
+[3.10.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.9.0...v3.10.0
+[3.9.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.8.0...v3.9.0
+[3.8.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.7.0...v3.8.0
+[3.7.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.6.0...v3.7.0
+[3.6.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.5.0...v3.6.0
+[3.5.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.4.10...v3.5.0
+[3.4.10]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.4.9...v3.4.10
+[3.4.9]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.4.8...v3.4.9
+[3.4.8]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.4.7...v3.4.8
+[3.4.7]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.4.0...v3.4.7
+[3.4.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.3.22...v3.4.0
+[3.3.22]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.3.12...v3.3.22
+[3.3.12]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.2.11...v3.3.12
+[3.2.11]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v3.2.10...v3.2.11
+[2.3.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.2.5...v2.3.0
+[2.2.5]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.2.4...v2.2.5
+[2.2.4]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.2.3...v2.2.4
+[2.2.3]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.2.2...v2.2.3
+[2.2.2]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.2.1...v2.2.2
+[2.2.1]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.2.0...v2.2.1
+[2.2.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.14...v2.2.0
+[2.1.14]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.13...v2.1.14
+[2.1.13]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.12...v2.1.13
+[2.1.12]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.11...v2.1.12
+[2.1.11]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.10...v2.1.11
+[2.1.10]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.9...v2.1.10
+[2.1.9]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.8...v2.1.9
+[2.1.8]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.7...v2.1.8
+[2.1.7]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.6...v2.1.7
+[2.1.6]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.5...v2.1.6
+[2.1.5]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.4...v2.1.5
+[2.1.4]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.3...v2.1.4
+[2.1.3]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.2...v2.1.3
+[2.1.2]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.1...v2.1.2
+[2.1.1]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.1.0...v2.1.1
+[2.1.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v1.6.0...v2.0.0
+[1.6.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v1.5.0...v1.6.0
+[1.5.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v1.4.0...v1.5.0
+[1.4.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v1.3.0...v1.4.0
+[1.3.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v1.2.0...v1.3.0
+[1.2.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/releases/tag/v1.0.0

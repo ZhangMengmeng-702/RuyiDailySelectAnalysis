@@ -7,7 +7,7 @@
 ## 📁 项目结构
 
 ```
-daily_stock_analysis/
+RuyiDailyStockAnalysis/
 ├── main.py              # 主程序入口
 ├── src/                 # 核心业务逻辑
 │   ├── analyzer.py      # AI 分析器
@@ -17,7 +17,7 @@ daily_stock_analysis/
 ├── data_provider/       # 多数据源适配器
 ├── bot/                 # 机器人交互模块
 ├── api/                 # FastAPI 后端服务
-├── apps/dsa-web/        # React 前端
+├── apps/ruyi-web/        # React 前端
 ├── docker/              # Docker 配置
 ├── docs/                # 项目文档
 └── .github/workflows/   # GitHub Actions
@@ -92,7 +92,7 @@ daily_stock_analysis/
 | `EMAIL_SENDER` | 发件人邮箱（如 `xxx@qq.com`） | 可选 |
 | `EMAIL_PASSWORD` | 邮箱授权码（非登录密码） | 可选 |
 | `EMAIL_RECEIVERS` | 收件人邮箱（多个用逗号分隔，留空则发给自己） | 可选 |
-| `EMAIL_SENDER_NAME` | 发件人显示名称（默认：daily_stock_analysis股票分析助手） | 可选 |
+| `EMAIL_SENDER_NAME` | 发件人显示名称（默认：RuyiDailyStockAnalysis股票分析助手） | 可选 |
 | `PUSHPLUS_TOKEN` | PushPlus Token（[获取地址](https://www.pushplus.plus)，国内推送服务） | 可选 |
 | `SERVERCHAN3_SENDKEY` | Server酱³ Sendkey（[获取地址](https://sc3.ft07.com/)，手机APP推送服务） | 可选 |
 | `ASTRBOT_URL` | AstrBot Webhook URL | 可选 |
@@ -155,7 +155,7 @@ daily_stock_analysis/
 |------------|------|:----:|
 | `STOCK_LIST` | 自选股代码，如 `600519,300750,002594,7203.T,005930.KS`；推荐使用英文逗号，中文逗号、顿号、分号、空格和换行会被识别并规范为英文逗号 | ✅ |
 | `ANSPIRE_API_KEYS` | [Anspire AI Search](https://aisearch.anspire.cn/) 针对中文内容特别优化；同一 Key 可用于搜索与 Anspire 大模型网关的兜底示例（是否可用以控制台与账号权限为准） | 推荐 |
-| `SERPAPI_API_KEYS` | [SerpAPI](https://serpapi.com/baidu-search-api?utm_source=github_daily_stock_analysis) 搜索引擎结果补强，适合实时金融新闻 | 推荐 |
+| `SERPAPI_API_KEYS` | [SerpAPI](https://serpapi.com/baidu-search-api?utm_source=github_RuyiDailyStockAnalysis) 搜索引擎结果补强，适合实时金融新闻 | 推荐 |
 | `TAVILY_API_KEYS` | [Tavily](https://tavily.com/) 搜索 API（新闻搜索） | 可选 |
 | `BOCHA_API_KEYS` | [博查搜索](https://open.bocha.cn/) Web Search API（中文搜索优化，支持AI摘要，多个key用逗号分隔） | 可选 |
 | `BRAVE_API_KEYS` | [Brave Search](https://brave.com/search/api/) API（隐私优先，美股优化，多个key用逗号分隔） | 可选 |
@@ -472,19 +472,19 @@ daily_stock_analysis/
 
 Dockerfile 使用多阶段构建，前端会在构建镜像时自动打包并内置到 `static/`。
 如需覆盖静态资源，可挂载本地 `static/` 到容器内 `/app/static`。
-运行中的 `server` 容器默认直接复用 `/app/static` 里的预构建产物，不要求容器内保留 `apps/dsa-web` 源码目录或运行时安装 `npm`；若 WebUI 无法打开，请优先确认 `/app/static/index.html` 是否存在。
+运行中的 `server` 容器默认直接复用 `/app/static` 里的预构建产物，不要求容器内保留 `apps/ruyi-web` 源码目录或运行时安装 `npm`；若 WebUI 无法打开，请优先确认 `/app/static/index.html` 是否存在。
 
 当前官方镜像发布地址：
 
-- GHCR：`ghcr.io/zhulinsen/daily_stock_analysis:<tag>`
-- Docker Hub：`<DOCKERHUB_USERNAME>/daily_stock_analysis:<tag>`（由发布者的 `DOCKERHUB_USERNAME` secret 决定，官方发布为 `zhulinsen/daily_stock_analysis`）
+- GHCR：`ghcr.io/zhulinsen/RuyiDailyStockAnalysis:<tag>`
+- Docker Hub：`<DOCKERHUB_USERNAME>/RuyiDailyStockAnalysis:<tag>`（由发布者的 `DOCKERHUB_USERNAME` secret 决定，官方发布为 `zhulinsen/RuyiDailyStockAnalysis`）
 
 ### 快速启动
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/ZhuLinsen/daily_stock_analysis.git
-cd daily_stock_analysis
+git clone https://github.com/ZhuLinsen/RuyiDailyStockAnalysis.git
+cd RuyiDailyStockAnalysis
 
 # 2. 配置环境变量
 cp .env.example .env
@@ -510,7 +510,7 @@ docker-compose -f ./docker/docker-compose.yml logs -f server
 
 ```bash
 # Web/API 模式
-docker pull zhulinsen/daily_stock_analysis:latest
+docker pull zhulinsen/RuyiDailyStockAnalysis:latest
 docker run -d \
   --name dsa-server \
   --env-file .env \
@@ -518,7 +518,7 @@ docker run -d \
   -v "$(pwd)/data:/app/data" \
   -v "$(pwd)/logs:/app/logs" \
   -v "$(pwd)/reports:/app/reports" \
-  zhulinsen/daily_stock_analysis:latest \
+  zhulinsen/RuyiDailyStockAnalysis:latest \
   python main.py --serve-only --host 0.0.0.0 --port 8000
 
 # 定时任务模式
@@ -528,7 +528,7 @@ docker run -d \
   -v "$(pwd)/data:/app/data" \
   -v "$(pwd)/logs:/app/logs" \
   -v "$(pwd)/reports:/app/reports" \
-  zhulinsen/daily_stock_analysis:latest
+  zhulinsen/RuyiDailyStockAnalysis:latest
 ```
 
 如需固定版本或便于回滚，请将 `latest` 替换为具体版本 tag，例如 `v3.13.0`。
@@ -904,7 +904,7 @@ P6 只做文档与配置可见性收口，不新增 pack runtime、不新增 pac
 
 个股分析现在新增低敏 `market_structure_context`，并通过 `AnalysisReport.details.market_structure` 对历史详情、同步分析响应和 completed 任务状态暴露。该字段采用两层结构：`market_theme_context` 表示大盘/题材层，包含 A 股行业/概念榜单、活跃题材、领涨行业/概念、题材宽度和数据质量；`stock_market_position` 表示个股位置层，包含个股所属板块、主关联题材、题材阶段、个股位置、风险标签和缺失证据。
 
-首版市场结构由 DSA 原生服务基于 `DataFetcherManager.get_sector_rankings()`、`get_concept_rankings()` 和 `fundamental_context.belong_boards` 生成，不依赖 AlphaSift runtime。AlphaSift 中已有的热点详情、发酵路线、成分股和 leader stocks 可作为后续可选数据源迁移，但在未迁移前不会被普通个股分析隐式调用。缺少成分股或 leader 证据时，`stock_role` 默认保持 `follower/edge/unknown`，并在 `missing_fields` 中标记 `hotspot_constituents`、`leader_stocks`，避免把普通关联股误写成题材龙头。
+首版市场结构由 Ruyi 原生服务基于 `DataFetcherManager.get_sector_rankings()`、`get_concept_rankings()` 和 `fundamental_context.belong_boards` 生成，不依赖 AlphaSift runtime。AlphaSift 中已有的热点详情、发酵路线、成分股和 leader stocks 可作为后续可选数据源迁移，但在未迁移前不会被普通个股分析隐式调用。缺少成分股或 leader 证据时，`stock_role` 默认保持 `follower/edge/unknown`，并在 `missing_fields` 中标记 `hotspot_constituents`、`leader_stocks`，避免把普通关联股误写成题材龙头。
 
 兼容性边界：`market_structure_context` 中的 provider / model 快照字段（含 `model_used`、`market_structure_context.*.source.provider` 等）仅用于历史回溯和页面展示，不构成 LLM provider 路由、`base URL`、`provider/model` 运行时配置输入；不会触发 `.env` 配置清理、回写、迁移或静默变更。
 
@@ -1709,7 +1709,7 @@ A: 检查是否启用了 Actions，以及 cron 表达式是否正确（注意是
 
 ---
 
-更多问题请 [提交 Issue](https://github.com/ZhuLinsen/daily_stock_analysis/issues)
+更多问题请 [提交 Issue](https://github.com/ZhuLinsen/RuyiDailyStockAnalysis/issues)
 
 ## Agent 工具数据缓存与持久化
 

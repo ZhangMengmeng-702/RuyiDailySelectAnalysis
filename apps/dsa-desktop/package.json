@@ -17,7 +17,7 @@
   },
   "build": {
     "appId": "com.daily-stock-analysis.desktop",
-    "productName": "Daily Stock Analysis",
+    "productName": "RuyiDailyStockAnalysis",
     "directories": {
       "output": "dist"
     },
@@ -43,7 +43,7 @@
         {
           "provider": "github",
           "owner": "ZhuLinsen",
-          "repo": "daily_stock_analysis"
+          "repo": "RuyiDailyStockAnalysis"
         }
       ]
     },

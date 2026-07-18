@@ -26,11 +26,11 @@ const isWindows = process.platform === 'win32';
 const isMac = process.platform === 'darwin';
 const appRootDev = path.resolve(__dirname, '..', '..');
 const GITHUB_OWNER = 'ZhuLinsen';
-const GITHUB_REPO = 'daily_stock_analysis';
+const GITHUB_REPO = 'RuyiDailyStockAnalysis';
 const RELEASES_PAGE_URL = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases`;
 const LATEST_RELEASE_API_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest`;
 const DEFAULT_REQUEST_TIMEOUT_MS = 5000;
-const DESKTOP_UPDATE_BACKUP_DIR = '.dsa-desktop-update-backup';
+const DESKTOP_UPDATE_BACKUP_DIR = '.ruyi-desktop-update-backup';
 const DESKTOP_UPDATE_BACKUP_MANIFEST_FILE = 'runtime-state.json';
 const DESKTOP_BACKEND_DEFAULT_HOST = '127.0.0.1';
 const PUBLIC_BIND_HOSTS = Object.freeze(new Set(['0.0.0.0', '::', '[::]', '*']));
@@ -1342,7 +1342,7 @@ function isWindowsNsisInstalledApp() {
   }
 
   const appDir = path.dirname(app.getPath('exe'));
-  return fs.existsSync(path.join(appDir, 'Uninstall Daily Stock Analysis.exe'));
+  return fs.existsSync(path.join(appDir, 'Uninstall RuyiDailyStockAnalysis.exe'));
 }
 
 function getElectronAutoUpdater() {
@@ -1784,7 +1784,7 @@ async function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
-      additionalArguments: [`--dsa-desktop-version=${app.getVersion()}`],
+      additionalArguments: [`--ruyi-desktop-version=${app.getVersion()}`],
     },
   });
   logStartup('BrowserWindow created');
