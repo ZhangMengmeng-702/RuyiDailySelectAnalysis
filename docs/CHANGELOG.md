@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+- Web 首页宽屏布局改造：Shell 改为 h-dvh overflow-hidden，HomePage 移除 max-w 约束，ReportOverview 改用 minmax(0,1fr) + 18rem 自适应网格
 - [测试] 新增 Web 全页面 Playwright 验收：统一检查路由、核心元素、控制台、页面异常与失败 API，并在通过后输出脱敏截图及 JSON 报告
 - [改进] 页面预览脚本与自动化验收共用同一份页面清单，避免新增页面后测试和截图路由漂移
 - [新功能] 新增中文课程 `examples/`，覆盖 OHLCV、收益率、MA5/10/20、乖离率、日线量比、支撑压力、信号与决策、报告解读、回测风险和 API 调用，并提供一键真实执行入口。
